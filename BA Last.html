@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="no">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ButikkApp">
+<meta name="theme-color" content="#06090f">
+<title>ButikkApp Pro</title>
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#06090f;--s0:#090d16;--s1:#0d1220;--s2:#111828;--s3:#162030;
+  --bdr:rgba(255,255,255,0.06);--bdr2:rgba(255,255,255,0.11);
+  --tx:#e8eeff;--mt:#3d5070;--mt2:#5a7090;
+  --bl:#3b82f6;--bl2:#60a5fa;--bl3:rgba(59,130,246,0.12);
+  --gr:#10b981;--gr2:#34d399;--gr3:rgba(16,185,129,0.12);
+  --or:#f59e0b;--or2:#fbbf24;--or3:rgba(245,158,11,0.12);
+  --pu:#8b5cf6;--pu2:#a78bfa;--pu3:rgba(139,92,246,0.12);
+  --rd:#ef4444;--rd2:#f87171;--rd3:rgba(239,68,68,0.1);
+  --cy:#06b6d4;--cy2:#22d3ee;--cy3:rgba(6,182,212,0.12);
+  --fn:"Inter",-apple-system,sans-serif;
+  --mo:"JetBrains Mono",monospace;
+  --r:16px;--st:env(safe-area-inset-top,44px);--sb:env(safe-area-inset-bottom,20px);
+}
+.lm{--bg:#f0f4f0;--s0:#fff;--s1:#fff;--s2:#f5f8f5;--s3:#e8ede8;--bdr:rgba(0,0,0,.07);--bdr2:rgba(0,0,0,.13);--tx:#1a2a1a;--mt:#7a9a7a;--mt2:#5a7a5a}
+html,body{height:100%;overflow:hidden}
+body{font-family:var(--fn);background:var(--bg);color:var(--tx);position:fixed;width:100%;height:100%;left:0;top:0;-webkit-font-smoothing:antialiased;overscroll-behavior:none;transition:background .3s,color .3s}
+#app{position:fixed;inset:0;max-width:430px;margin:0 auto}
+.sc{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transform:translateX(100%);opacity:0;transition:transform .3s cubic-bezier(.4,0,.2,1),opacity .3s;pointer-events:none}
+.sc.on{transform:translateX(0);opacity:1;pointer-events:all}
+.sc.pv{transform:translateX(-25%);opacity:0;pointer-events:none}
+.sft{height:calc(var(--st)+4px);min-height:48px;flex-shrink:0}
+.scrl{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch;padding:0 16px calc(72px + var(--sb));overscroll-behavior:contain}
+.scrl::-webkit-scrollbar{display:none}
+.bar{display:flex;align-items:center;justify-content:space-between;padding:4px 18px 14px;flex-shrink:0}
+.logo{font-size:20px;font-weight:900;letter-spacing:-.6px;background:linear-gradient(135deg,var(--bl2),var(--cy2));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.btit{font-size:20px;font-weight:800;letter-spacing:-.4px}
+.bbs{display:flex;gap:8px}
+.ib{width:38px;height:38px;border-radius:13px;border:1px solid var(--bdr2);background:var(--s2);display:flex;align-items:center;justify-content:center;font-size:16px;cursor:pointer;transition:all .15s;flex-shrink:0}
+.ib:active{transform:scale(.88);background:var(--s3)}
+.bnav{position:absolute;bottom:0;left:0;right:0;display:flex;align-items:flex-start;padding-top:8px;padding-bottom:calc(var(--sb)+4px);border-top:1px solid var(--bdr);background:rgba(6,9,15,.97);backdrop-filter:blur(28px);-webkit-backdrop-filter:blur(28px)}
+.lm .bnav{background:rgba(240,244,240,.97)}
+.bni{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;cursor:pointer;padding:4px 0}
+.bic{font-size:22px;line-height:1;position:relative}
+.blb{font-size:9px;font-weight:700;letter-spacing:.4px;text-transform:uppercase;color:var(--mt)}
+.bni.on .blb{color:var(--bl2)}
+.bni.on .bic{filter:drop-shadow(0 0 8px rgba(96,165,250,.7))}
+.bdot{position:absolute;top:-3px;right:-7px;background:var(--rd);color:#fff;font-size:9px;font-weight:800;border-radius:8px;padding:1px 5px;min-width:16px;text-align:center;display:none;font-family:var(--mo);line-height:1.4}
+.bdot.on{display:block}
+.hero{background:linear-gradient(135deg,#0d1f3c,#0a1628,#060e1e);border:1px solid rgba(59,130,246,.2);border-radius:22px;padding:22px 20px;margin-bottom:12px;position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;top:-50px;right:-50px;width:160px;height:160px;border-radius:50%;background:radial-gradient(circle,rgba(59,130,246,.18),transparent 70%)}
+.hday{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--bl2);opacity:.8;margin-bottom:6px}
+.hgr{font-size:24px;font-weight:800;letter-spacing:-.5px;margin-bottom:4px}
+.hsub{font-size:13px;color:var(--mt2)}
+.hsts{display:flex;gap:10px;margin-top:18px}
+.hst{flex:1;background:rgba(255,255,255,.05);border-radius:12px;padding:11px 8px;text-align:center}
+.hstv{font-size:22px;font-weight:800;font-family:var(--mo);color:var(--bl2)}
+.hstl{font-size:10px;color:var(--mt2);margin-top:3px;text-transform:uppercase;letter-spacing:.4px}
+.qag{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.qac{border-radius:var(--r);padding:18px 14px;cursor:pointer;transition:transform .15s,opacity .15s;display:flex;flex-direction:column;gap:8px;border:1px solid transparent}
+.qac:active{transform:scale(.94);opacity:.85}
+.qai{font-size:28px;line-height:1}
+.qat{font-size:14px;font-weight:700}
+.qas{font-size:11px;opacity:.75}
+.qb{background:linear-gradient(135deg,#1e3a6e,#1d4ed8);border-color:rgba(59,130,246,.3)}
+.qg{background:linear-gradient(135deg,#064e3b,#059669);border-color:rgba(16,185,129,.3)}
+.qo{background:linear-gradient(135deg,#78350f,#d97706);border-color:rgba(245,158,11,.3)}
+.qp{background:linear-gradient(135deg,#3b0764,#7c3aed);border-color:rgba(139,92,246,.3)}
+.qc{background:linear-gradient(135deg,#164e63,#0e7490);border-color:rgba(6,182,212,.3)}
+.qr{background:linear-gradient(135deg,#450a0a,#b91c1c);border-color:rgba(239,68,68,.3)}
+.alt{border-radius:12px;padding:12px 14px;margin-bottom:10px;display:flex;align-items:flex-start;gap:10px}
+.ablu{background:var(--bl3);border:1px solid rgba(59,130,246,.2)}
+.agr{background:var(--gr3);border:1px solid rgba(16,185,129,.2)}
+.aor{background:var(--or3);border:1px solid rgba(245,158,11,.2)}
+.atit{font-size:13px;font-weight:700}
+.asub{font-size:12px;color:var(--mt2);margin-top:2px;line-height:1.5}
+.sec{font-size:10px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:var(--mt);margin:14px 0 8px;display:flex;align-items:center;justify-content:space-between}
+.secb{font-size:11px;font-weight:700;color:var(--bl2);letter-spacing:0;text-transform:none;cursor:pointer}
+.card{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.crow{display:flex;align-items:center;gap:12px;padding:13px 14px;border-bottom:1px solid var(--bdr)}
+.crow:last-child{border-bottom:none}
+.stbs{display:flex;overflow-x:auto;padding:0 16px 10px;gap:8px;flex-shrink:0;scrollbar-width:none}
+.stbs::-webkit-scrollbar{display:none}
+.stb{flex-shrink:0;display:flex;align-items:center;gap:5px;padding:7px 13px;border-radius:20px;border:1px solid var(--bdr2);background:var(--s2);color:var(--mt2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+.stb.on{border-color:var(--gr);background:var(--gr3);color:var(--gr2)}
+.cpls{display:flex;gap:6px;overflow-x:auto;padding:0 16px 10px;flex-shrink:0;scrollbar-width:none}
+.cpls::-webkit-scrollbar{display:none}
+.cpl{flex-shrink:0;padding:6px 12px;border-radius:20px;border:1px solid var(--bdr);background:var(--s2);color:var(--mt2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .2s}
+.cpl.on{background:var(--gr3);border-color:var(--gr);color:var(--gr2)}
+.sbr{margin:0 16px 10px;position:relative;flex-shrink:0}
+.sbr input{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:13px;padding:11px 16px 11px 42px;font-size:15px;color:var(--tx);font-family:var(--fn);outline:none}
+.sbr input:focus{border-color:var(--gr)}
+.sbr input::placeholder{color:var(--mt)}
+.sbr .si{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:15px;pointer-events:none}
+.plt{display:flex;flex-direction:column;gap:8px;padding:0 16px 8px}
+.prw{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:13px;display:flex;align-items:center;gap:12px;transition:border-color .2s,background .2s;position:relative}
+.prw.io{border-color:var(--gr);background:rgba(16,185,129,.05)}
+.pem{font-size:28px;flex-shrink:0;width:38px;text-align:center}
+.pif{flex:1;min-width:0}
+.psp{font-size:10px;color:var(--mt);display:flex;align-items:center;gap:4px;margin-bottom:3px}
+.sdt{width:5px;height:5px;border-radius:50%;flex-shrink:0}
+.pnm{font-size:15px;font-weight:600;line-height:1.2}
+.pds{font-size:12px;color:var(--mt2);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pus{font-size:11px;color:var(--mt);margin-top:2px;font-family:var(--mo)}
+.qcr{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.qbn{width:32px;height:32px;border-radius:10px;border:none;background:var(--s3);color:var(--tx);font-size:20px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:transform .1s;flex-shrink:0;line-height:1}
+.qbn:active{transform:scale(.82)}
+.qpl{background:rgba(16,185,129,.2);color:var(--gr2)}
+.qvl{font-family:var(--mo);font-size:17px;font-weight:700;min-width:26px;text-align:center}
+.pck{position:absolute;top:10px;right:10px;width:18px;height:18px;border-radius:50%;background:var(--gr);color:#fff;font-size:9px;font-weight:800;display:none;align-items:center;justify-content:center}
+.prw.io .pck{display:flex}
+.ped{position:absolute;bottom:9px;right:9px;width:23px;height:23px;border-radius:7px;background:rgba(255,255,255,.07);border:none;color:var(--mt);font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cgrp{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:10px}
+.cghd{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bdr)}
+.cgdt{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cgnm{font-size:13px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;flex:1}
+.cgct{font-size:11px;color:var(--mt)}
+.cgwa{padding:5px 10px;border-radius:9px;border:none;background:rgba(37,211,102,.14);color:#25D366;font-size:11px;font-weight:700;cursor:pointer;font-family:var(--fn)}
+.cit{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bdr)}
+.cit:last-child{border-bottom:none}
+.cem{font-size:22px;flex-shrink:0}
+.cbo{flex:1;min-width:0}
+.cnm{font-size:14px;font-weight:600}
+.cds{font-size:11px;color:var(--mt2);margin-top:2px}
+.cus{font-size:10px;color:var(--mt);font-family:var(--mo);margin-top:1px}
+.cqr{display:flex;align-items:center;gap:6px;flex-shrink:0}
+.cqb{width:28px;height:28px;border-radius:9px;border:1px solid var(--bdr2);background:var(--s2);color:var(--tx);font-size:15px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.cqb:active{transform:scale(.85)}
+.cqv{font-family:var(--mo);font-size:16px;font-weight:700;min-width:24px;text-align:center}
+.dbt{width:28px;height:28px;border-radius:9px;border:none;background:var(--rd3);color:var(--rd2);font-size:13px;cursor:pointer;display:flex;align-items:center;justify-content:center;margin-left:2px}
+.smb{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:14px;margin-bottom:12px;display:flex;gap:8px}
+.smi{flex:1;text-align:center}
+.smv{font-size:22px;font-weight:800;color:var(--gr2);font-family:var(--mo)}
+.sml{font-size:9px;color:var(--mt);margin-top:3px;text-transform:uppercase;letter-spacing:.7px}
+.agd{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.abt{padding:14px 10px;border-radius:var(--r);border:none;font-size:12px;font-weight:700;font-family:var(--fn);cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:4px;transition:transform .12s,opacity .12s}
+.abt:active{transform:scale(.94);opacity:.85}
+.abt .ai{font-size:21px}
+.abt small{font-size:10px;font-weight:500;opacity:.8}
+.awa{background:linear-gradient(135deg,#166534,#15803d);color:#fff}
+.apr{background:linear-gradient(135deg,#1e3a8a,#1d4ed8);color:#fff}
+.acp{background:var(--s2);color:var(--mt2);border:1px solid var(--bdr2)}
+.acl{background:var(--rd3);color:var(--rd2);border:1px solid rgba(239,68,68,.2)}
+.fb{width:100%;padding:15px;border-radius:var(--r);border:none;font-size:15px;font-weight:700;font-family:var(--fn);cursor:pointer;transition:transform .12s;margin-bottom:8px;display:block}
+.fb:active{transform:scale(.97)}
+.fg{background:linear-gradient(135deg,var(--gr),#059669);color:#fff;box-shadow:0 4px 18px rgba(16,185,129,.2)}
+.fbl{background:linear-gradient(135deg,var(--bl),#1d4ed8);color:#fff}
+.fgh{background:var(--s2);color:var(--mt2);border:1px solid var(--bdr2)}
+.nbox{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:12px 14px;margin-bottom:10px}
+.nbox textarea{width:100%;background:transparent;border:none;outline:none;font-size:14px;color:var(--tx);font-family:var(--fn);resize:none;min-height:52px;line-height:1.5}
+.nbox textarea::placeholder{color:var(--mt)}
+.smrt{background:linear-gradient(135deg,rgba(245,158,11,.1),rgba(249,115,22,.07));border:1px solid rgba(245,158,11,.2);border-radius:var(--r);padding:12px 14px;margin-bottom:12px;display:flex;align-items:center;gap:12px;cursor:pointer}
+.mseg{display:flex;background:var(--s2);border-radius:13px;padding:4px;gap:3px;margin-bottom:12px}
+.msb{flex:1;padding:10px 0;border-radius:9px;border:none;background:transparent;color:var(--mt);font-size:12px;font-weight:700;font-family:var(--fn);cursor:pointer;transition:all .2s;text-align:center;line-height:1.3}
+.msb small{display:block;font-size:10px;font-weight:400;margin-top:1px;opacity:.7}
+.m0{background:var(--s3);color:var(--tx);box-shadow:0 0 0 1px rgba(255,255,255,.08)}
+.m15{background:var(--bl3);color:var(--bl2);box-shadow:0 0 0 1px rgba(59,130,246,.3)}
+.m25{background:var(--or3);color:var(--or2);box-shadow:0 0 0 1px rgba(245,158,11,.3)}
+.frow{display:flex;align-items:center;justify-content:space-between;background:var(--s1);border:1px solid var(--bdr);border-radius:12px;padding:14px 16px;margin-bottom:12px;cursor:pointer}
+.frow:active{background:var(--s2)}
+.fbdg{font-family:var(--mo);font-size:26px;font-weight:600;color:var(--gr2);background:var(--gr3);border:1px solid rgba(16,185,129,.25);border-radius:12px;padding:7px 14px}
+.icard{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:14px 16px;margin-bottom:10px;display:flex;align-items:center;gap:12px}
+.iico{width:38px;height:38px;border-radius:11px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.ibo{flex:1;min-width:0}
+.ibo label{font-size:10px;font-weight:700;letter-spacing:.8px;text-transform:uppercase;color:var(--mt);display:block;margin-bottom:4px}
+.ibo input{background:transparent;border:none;outline:none;font-size:26px;font-weight:800;color:var(--tx);width:100%;font-family:var(--fn)}
+.ibo input::placeholder{color:rgba(255,255,255,.15)}
+.lm .ibo input::placeholder{color:rgba(0,0,0,.15)}
+.isf{font-size:14px;color:var(--mt);font-weight:600;flex-shrink:0}
+.rcrd{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.rrw{display:flex;justify-content:space-between;align-items:center;padding:13px 16px;border-bottom:1px solid var(--bdr)}
+.rrw:last-child{border-bottom:none}
+.rlb{font-size:13px;color:var(--mt2)}
+.rvl{font-family:var(--mo);font-size:15px;font-weight:600}
+.phro{background:linear-gradient(145deg,#0d1f3c,#162040);border:1px solid rgba(59,130,246,.25);border-radius:22px;padding:24px 20px;text-align:center;margin-bottom:10px;position:relative;overflow:hidden}
+.plb{font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--mt2);margin-bottom:8px}
+.ppr{font-family:var(--mo);font-size:46px;font-weight:600;letter-spacing:-1px;background:linear-gradient(135deg,var(--bl2),var(--cy2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:12px}
+.pchs{display:flex;gap:7px;justify-content:center;flex-wrap:wrap}
+.chp{font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);color:var(--mt2)}
+.chp.g{background:var(--gr3);border-color:rgba(16,185,129,.25);color:var(--gr2)}
+.chp.b{background:var(--bl3);border-color:rgba(59,130,246,.25);color:var(--bl2)}
+.chp.o{background:var(--or3);border-color:rgba(245,158,11,.25);color:var(--or2)}
+.strow{display:flex;align-items:center;justify-content:space-between;padding:14px;border-bottom:1px solid var(--bdr)}
+.strow:last-child{border-bottom:none}
+.stl{display:flex;align-items:center;gap:12px}
+.stic{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:17px}
+.stnm{font-size:14px;font-weight:500}
+.sts{font-size:11px;color:var(--mt);margin-top:2px}
+.tog{width:46px;height:26px;border-radius:13px;background:var(--s3);border:1px solid var(--bdr2);position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.tog.on{background:var(--gr)}
+.tok{position:absolute;top:2px;left:2px;width:20px;height:20px;border-radius:50%;background:#fff;transition:transform .2s;box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.tog.on .tok{transform:translateX(20px)}
+.sbt{padding:7px 13px;border-radius:10px;border:none;font-size:12px;font-weight:700;font-family:var(--fn);cursor:pointer}
+.sg2{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-bottom:12px}
+.sbox{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);padding:15px 13px}
+.snum{font-size:28px;font-weight:800;font-family:var(--mo);color:var(--bl2)}
+.slbl{font-size:12px;color:var(--mt2);margin-top:4px}
+.ti{display:flex;align-items:center;gap:10px;padding:10px 14px;border-bottom:1px solid var(--bdr)}
+.ti:last-child{border-bottom:none}
+.tr{font-size:11px;color:var(--mt);font-family:var(--mo);min-width:22px}
+.te{font-size:20px}
+.tn{flex:1;font-size:13px;font-weight:600}
+.tc{font-family:var(--mo);font-size:14px;font-weight:700;color:var(--or2)}
+.hr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--bdr);cursor:pointer}
+.hr:last-child{border-bottom:none}
+.hr:active{background:rgba(255,255,255,.02)}
+.hd{font-size:11px;color:var(--mt);min-width:54px;line-height:1.5}
+.hb{flex:1}
+.ht{font-size:13px;font-weight:600}
+.hm{font-size:11px;color:var(--mt2);margin-top:2px}
+.hn{font-size:11px;color:var(--or2);font-style:italic;margin-top:2px}
+.hq{font-family:var(--mo);font-size:14px;color:var(--bl2);font-weight:700;flex-shrink:0}
+.supc{background:var(--s1);border:1px solid var(--bdr);border-radius:var(--r);overflow:hidden;margin-bottom:12px}
+.sphd{display:flex;align-items:center;gap:10px;padding:13px 14px}
+.spdt{width:11px;height:11px;border-radius:50%;flex-shrink:0}
+.spnm{font-size:15px;font-weight:700;flex:1}
+.speb{padding:7px 12px;border-radius:10px;border:none;font-size:12px;font-weight:700;font-family:var(--fn);background:var(--bl3);color:var(--bl2);cursor:pointer}
+.irw{display:flex;align-items:center;gap:8px;padding:7px 14px;border-top:1px solid var(--bdr);font-size:12px;color:var(--mt2)}
+.irw a{color:var(--bl2);text-decoration:none}
+.ilnk{background:var(--bl3);padding:3px 9px;border-radius:14px;color:var(--bl2);font-size:11px;font-weight:700}
+.iwa2{background:rgba(37,211,102,.12);padding:3px 9px;border-radius:14px;color:#25D366;font-size:11px;font-weight:700}
+.sphdr{padding:7px 14px 4px;font-size:10px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--mt);border-top:1px solid var(--bdr)}
+.spls{padding:0 14px 10px}
+.spit{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid var(--bdr)}
+.spit:last-child{border-bottom:none}
+.spem{font-size:17px;flex-shrink:0}
+.spna{flex:1;font-size:13px;font-weight:500}
+.spds{font-size:11px;color:var(--mt)}
+.spbt{width:25px;height:25px;border-radius:8px;background:var(--bl3);border:none;color:var(--bl2);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.ov{position:fixed;inset:0;z-index:900;background:rgba(0,0,0,.75);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);display:flex;align-items:flex-end;justify-content:center;opacity:0;pointer-events:none;transition:opacity .24s}
+.ov.open{opacity:1;pointer-events:all}
+.modal{background:var(--s0);border-radius:26px 26px 0 0;padding:22px 20px;padding-bottom:calc(var(--sb)+28px);width:100%;max-width:430px;border-top:1px solid var(--bdr2);transform:translateY(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);max-height:90vh;overflow-y:auto}
+.modal::-webkit-scrollbar{display:none}
+.ov.open .modal{transform:translateY(0)}
+.mh{width:36px;height:4px;border-radius:2px;background:var(--bdr2);margin:0 auto 18px}
+.mt{font-size:18px;font-weight:800;margin-bottom:14px}
+.ml{font-size:10px;font-weight:700;letter-spacing:.9px;text-transform:uppercase;color:var(--mt);margin-bottom:7px}
+.mi{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:13px;padding:12px 14px;font-size:15px;color:var(--tx);font-family:var(--fn);outline:none;margin-bottom:11px;transition:border-color .2s}
+.mi:focus{border-color:var(--gr)}
+.mrow{display:flex;gap:8px;margin-bottom:11px;flex-wrap:wrap}
+.cp{width:29px;height:29px;border-radius:50%;cursor:pointer;border:2px solid transparent;transition:all .2s;flex-shrink:0}
+.cp.on{border-color:var(--tx);transform:scale(1.2)}
+.spill{padding:6px 12px;border-radius:20px;border:1px solid var(--bdr2);background:rgba(255,255,255,.04);color:var(--mt2);font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap;transition:all .15s}
+.lm .spill{background:rgba(0,0,0,.04)}
+.mc{width:100%;padding:15px;border-radius:14px;border:none;background:linear-gradient(135deg,var(--gr),#059669);color:#fff;font-size:16px;font-weight:700;font-family:var(--fn);cursor:pointer;margin-top:6px}
+.mc:active{transform:scale(.97)}
+.md{width:100%;padding:12px;border-radius:14px;border:none;background:var(--rd3);color:var(--rd2);font-size:14px;font-weight:700;font-family:var(--fn);cursor:pointer;margin-top:8px}
+.finp{width:100%;background:var(--s2);border:1px solid var(--bdr2);border-radius:14px;padding:16px;font-size:30px;font-weight:700;color:var(--tx);font-family:var(--mo);text-align:center;outline:none;margin-bottom:14px}
+.finp:focus{border-color:var(--gr)}
+.fgrd{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
+.fqb{padding:12px 0;border-radius:12px;border:1px solid var(--bdr2);background:var(--s2);color:var(--mt2);font-size:14px;font-weight:700;font-family:var(--mo);cursor:pointer}
+.fqb.on{border-color:var(--gr2);background:var(--gr3);color:var(--gr2)}
+.toast{position:fixed;bottom:calc(var(--sb)+80px);left:50%;transform:translateX(-50%) translateY(16px);background:var(--s3);border:1px solid var(--bdr2);border-radius:14px;padding:11px 18px;font-size:13px;font-weight:600;opacity:0;pointer-events:none;transition:all .28s;z-index:999;white-space:nowrap;max-width:calc(100% - 40px)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.empty{text-align:center;padding:44px 20px;color:var(--mt)}
+.empty .emo{font-size:40px;margin-bottom:10px}
+.empty p{font-size:14px;line-height:1.6}
+</style>
+</head>
+<body>
+<div id="app">
+
+<div class="sc on" id="scHome">
+<div class="sft"></div>
+<div class="bar"><div class="logo">ButikkApp</div><div class="bbs"><div class="ib" onclick="goTo('scanner')" title="Skanner">📷</div><div class="ib" onclick="goTo('settings')">⚙️</div></div></div>
+<div class="scrl">
+<div class="hero">
+<div class="hday" id="hDay"></div>
+<div class="hgr" id="hGr">God dag! 👋</div>
+<div class="hsub" id="hSub">Her er oversikten din</div>
+<div class="hsts"><div class="hst"><div class="hstv" id="hsP">0</div><div class="hstl">Produkter</div></div><div class="hst"><div class="hstv" id="hsO">0</div><div class="hstl">Bestillinger</div></div><div class="hst"><div class="hstv" id="hsS">0</div><div class="hstl">Leverandører</div></div></div>
+</div>
+<div id="homeAlerts"></div>
+<div class="sec">Hurtigtilgang</div>
+<div class="qag">
+<div class="qac qg" onclick="goTo('order')"><div class="qai">🛍️</div><div class="qat">Produkter</div><div class="qas">Legg til bestilling</div></div>
+<div class="qac qb" onclick="goTo('cart')"><div class="qai">📦</div><div class="qat">Bestilling</div><div class="qas" id="qaCS">Tom liste</div></div>
+<div class="qac qo" onclick="goTo('price')"><div class="qai">💰</div><div class="qat">Priskalkulator</div><div class="qas">MVA + margin</div></div>
+<div class="qac qp" onclick="goTo('templates')"><div class="qai">📋</div><div class="qat">Ukesmaler</div><div class="qas">Fast bestilling</div></div>
+<div class="qac qc" onclick="goTo('scanner')"><div class="qai">📷</div><div class="qat">Strekkode</div><div class="qas">Skann produkt</div></div>
+<div class="qac qr" onclick="goTo('report')"><div class="qai">📈</div><div class="qat">Ukesrapport</div><div class="qas">Kjøp og historikk</div></div>
+</div>
+<div class="sec">Siste aktivitet <span class="secb" onclick="goTo('stats')">Se alle →</span></div>
+<div class="card" id="recentList"></div>
+</div>
+<div class="bnav">
+<div class="bni on" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic"><span style="position:relative">🛍️<span class="bdot" id="b1"></span></span></div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic"><span style="position:relative">🛒<span class="bdot" id="b2"></span></span></div><div class="blb">Bestilling</div></div>
+<div class="bni" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scOrder">
+<div class="sft"></div>
+<div class="bar"><div class="btit">🛍️ Produkter</div><div class="bbs"><div class="ib" onclick="openAddProd(null)">➕</div><div class="ib" onclick="togSearch()">🔍</div></div></div>
+<div class="sbr" id="srchBar" style="display:none"><span class="si">🔍</span><input id="srchInp" placeholder="Søk produkt..." oninput="renderProds()"></div>
+<div class="stbs" id="supTabs"></div>
+<div class="cpls" id="catPills"></div>
+<div class="scrl" style="padding-left:0;padding-right:0"><div class="plt" id="prodList"></div></div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni on" onclick="goTo('order')"><div class="bic"><span style="position:relative">🛍️<span class="bdot" id="b3"></span></span></div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic"><span style="position:relative">🛒<span class="bdot" id="b4"></span></span></div><div class="blb">Bestilling</div></div>
+<div class="bni" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scCart">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📦 Bestillingsliste</div><div class="ib" onclick="clearCart()">🗑</div></div>
+<div class="scrl">
+<div class="smb"><div class="smi"><div class="smv" id="csI">0</div><div class="sml">Produkter</div></div><div class="smi"><div class="smv" id="csQ">0</div><div class="sml">Enheter</div></div><div class="smi"><div class="smv" id="csS">0</div><div class="sml">Leverandører</div></div></div>
+<div class="smrt" id="smrtB" style="display:none" onclick="loadLast()"><div style="font-size:24px">🤖</div><div style="flex:1"><div style="font-size:13px;font-weight:700;color:var(--or2)">Gjenta siste bestilling?</div><div style="font-size:12px;color:var(--mt2);margin-top:2px" id="smrtSub"></div></div><div style="color:var(--or2);font-size:20px">›</div></div>
+<div id="delivAlt"></div>
+<div class="nbox"><div class="ml">📝 Merknad</div><textarea id="ordNote" placeholder="Notater til bestillingen..." oninput="saveNote()"></textarea></div>
+<div class="agd">
+<div class="abt awa" onclick="sendWA(null)"><span class="ai">💬</span>WhatsApp<small>Send alle</small></div>
+<div class="abt apr" onclick="printOrder()"><span class="ai">🖨️</span>Skriv ut<small>A4</small></div>
+<div class="abt acp" onclick="copyOrder()"><span class="ai">📋</span>Kopier</div>
+<div class="abt acl" onclick="clearCart()"><span class="ai">🗑</span>Tøm liste</div>
+</div>
+<div id="cartList"></div>
+</div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic"><span style="position:relative">🛍️<span class="bdot" id="b5"></span></span></div><div class="blb">Produkter</div></div>
+<div class="bni on" onclick="goTo('cart')"><div class="bic"><span style="position:relative">🛒<span class="bdot on" id="b6"></span></span></div><div class="blb">Bestilling</div></div>
+<div class="bni" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scPrice">
+<div class="sft"></div>
+<div class="bar"><div class="btit">💰 Priskalkulator</div><div class="bbs"><div class="ib" onclick="savePCalc()">💾</div><div class="ib" onclick="resetPrice()">↺</div></div></div>
+<div class="scrl">
+<div class="icard"><div class="iico" style="background:var(--or3)">🏷️</div><div class="ibo"><label>Produktnavn (valgfritt)</label><input id="pName" type="text" placeholder="f.eks. Tunfisk på boks..." oninput="calcPrice()"></div></div>
+<div class="sec">MVA-sats</div>
+<div class="mseg"><button class="msb" id="ms0" onclick="setMva(0)">Uten MVA<small>Inkl. i pris</small></button><button class="msb m15" id="ms15" onclick="setMva(15)">MVA 15%<small>Matvarer</small></button><button class="msb" id="ms25" onclick="setMva(25)">MVA 25%<small>Andre</small></button></div>
+<div class="sec">Fortjeneste-faktor</div>
+<div class="frow" onclick="openFactor()"><div><div style="font-size:12px;color:var(--mt);margin-bottom:3px">Trykk for å endre</div><div style="font-size:12px;color:var(--mt2)">Kostpris × faktor = Salgspris</div></div><div class="fbdg" id="fBdg">×1.7</div></div>
+<div class="sec">Innkjøp</div>
+<div class="icard"><div class="iico" style="background:var(--bl3)">🧾</div><div class="ibo"><label>Grossistpris (total faktura)</label><input id="pGross" type="number" inputmode="decimal" placeholder="0.00" oninput="calcPrice()"></div><div class="isf">kr</div></div>
+<div class="icard"><div class="iico" style="background:var(--cy3)">📦</div><div class="ibo"><label>Antall enheter</label><input id="pAntall" type="number" inputmode="numeric" placeholder="1" oninput="calcPrice()"></div><div class="isf">stk</div></div>
+<div class="sec">Beregning</div>
+<div class="rcrd"><div class="rrw"><span class="rlb">Pris pr. stk (eks. MVA)</span><span class="rvl" id="rPr" style="color:var(--tx)">—</span></div><div class="rrw" id="mvaRR"><span class="rlb" id="rML">+ MVA 15%</span><span class="rvl" id="rMva" style="color:var(--bl2)">—</span></div><div class="rrw"><span class="rlb" id="rKL">Kostpris pr. stk m/MVA</span><span class="rvl" id="rKost" style="color:var(--tx)">—</span></div></div>
+<div class="phro"><div class="plb" id="phLbl">Salgspris pr. stk</div><div class="ppr" id="phPrc">— kr</div><div class="pchs" id="phCh"><div class="chp">Tast inn pris og antall</div></div></div>
+<div id="pShareBtns" style="display:none"><div class="agd"><div class="abt awa" onclick="sharePWA()"><span class="ai">💬</span>Del WA<small>WhatsApp</small></div><div class="abt acp" onclick="copyPText()"><span class="ai">📋</span>Kopier tekst</div></div></div>
+<div class="sec" id="phHistSec" style="display:none">Siste beregninger <span class="secb" onclick="clearPHist()">Slett</span></div>
+<div class="card" id="pHistList" style="display:none"></div>
+</div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic"><span style="position:relative">🛍️<span class="bdot" id="b7"></span></span></div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic"><span style="position:relative">🛒<span class="bdot" id="b8"></span></span></div><div class="blb">Bestilling</div></div>
+<div class="bni on" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scStats">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📊 Statistikk</div><div class="ib" onclick="clearHist()">🗑</div></div>
+<div class="scrl" id="statsScr"></div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic"><span style="position:relative">🛍️<span class="bdot" id="b9"></span></span></div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic"><span style="position:relative">🛒<span class="bdot" id="b10"></span></span></div><div class="blb">Bestilling</div></div>
+<div class="bni" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni on" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scSuppliers">
+<div class="sft"></div>
+<div class="bar"><div class="btit">🏭 Leverandører</div><div class="ib" onclick="openAddSup(null)">➕</div></div>
+<div class="scrl" id="supScr"></div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic">🛍️</div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic">🛒</div><div class="blb">Bestilling</div></div>
+<div class="bni on" onclick="goTo('suppliers')"><div class="bic">🏭</div><div class="blb">Leverandører</div></div>
+<div class="bni" onclick="goTo('stats')"><div class="bic">📊</div><div class="blb">Statistikk</div></div>
+</div>
+</div>
+
+<div class="sc" id="scTemplates">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📋 Ukesmaler</div><div class="bbs"><div class="ib" onclick="saveAsTmpl()">💾</div><div class="ib" onclick="goTo('home')">✕</div></div></div>
+<div class="scrl" id="tmplScr"></div>
+</div>
+
+<div class="sc" id="scReport">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📈 Ukesrapport</div><div class="bbs"><div class="ib" onclick="printReport()">🖨️</div><div class="ib" onclick="goTo('stats')">✕</div></div></div>
+<div class="scrl" id="reportScr"></div>
+</div>
+
+<div class="sc" id="scScanner">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📷 Strekkodeskanner</div><div class="ib" onclick="stopScanner();goTo('order')">✕</div></div>
+<div class="scrl">
+<div class="alt ablu" style="margin-bottom:12px"><div style="font-size:20px">📷</div><div><div class="atit" style="color:var(--bl2)">Skann strekkode</div><div class="asub">Pek kameraet mot strekkoden. Produktet legges til bestillingen automatisk!</div></div></div>
+<div class="card" style="overflow:hidden;margin-bottom:12px">
+<div style="position:relative">
+<video id="scanVid" style="width:100%;display:block;min-height:200px;background:#000" autoplay playsinline muted></video>
+<div style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none"><div style="width:220px;height:130px;border:3px solid var(--gr2);border-radius:14px;box-shadow:0 0 0 2000px rgba(0,0,0,.45)"></div></div>
+</div>
+<div style="padding:14px;text-align:center">
+<div id="scanSt" style="font-size:13px;color:var(--mt2);margin-bottom:10px">Trykk for å starte kamera</div>
+<button id="scanSBtn" class="fb fg" onclick="startScanner()">📷 Start skanner</button>
+<button id="scanEBtn" class="fb fgh" onclick="stopScanner()" style="display:none">✕ Stopp</button>
+</div>
+</div>
+<div id="scanRes" style="display:none"><div class="sec">Siste skanning</div><div class="card" id="scanResCard" style="padding:14px"></div></div>
+<div class="sec">Historikk</div>
+<div class="card" id="scanHistCard"><div style="padding:14px;text-align:center;font-size:13px;color:var(--mt)">Ingen skanninger ennå</div></div>
+</div>
+</div>
+
+<div class="sc" id="scQrsync">
+<div class="sft"></div>
+<div class="bar"><div class="btit">📱 QR Sync</div><div class="ib" onclick="stopQRScan();goTo('settings')">✕</div></div>
+<div class="scrl">
+<div class="alt ablu" style="margin-bottom:12px"><div style="font-size:20px">💡</div><div><div class="atit" style="color:var(--bl2)">Slik synkroniserer du</div><div class="asub">1. Trykk Generer QR på denne telefonen<br>2. Åpne ButikkApp på den andre<br>3. Gå til QR Sync → Skann QR<br>4. Skann — data overføres!</div></div></div>
+<div class="sec">📤 Eksporter via QR</div>
+<div class="card" style="padding:20px;text-align:center">
+<div id="qrCanv" style="margin:0 auto 14px;min-height:40px"></div>
+<div id="qrSt" style="font-size:13px;color:var(--mt2);margin-bottom:14px">Trykk for å generere QR med alle produkter og leverandører</div>
+<button class="fb fg" onclick="generateQR()">📱 Generer QR-kode</button>
+</div>
+<div class="sec" style="margin-top:14px">📷 Importer via kamera</div>
+<div class="card" style="padding:16px;text-align:center">
+<video id="qrVid" style="width:100%;border-radius:12px;background:#000;display:none;margin-bottom:12px;max-height:200px" autoplay playsinline></video>
+<div id="qrScanSt" style="font-size:13px;color:var(--mt2);margin-bottom:12px">Skann QR fra den andre telefonen</div>
+<button class="fb fbl" id="qrScBtn" onclick="startQRScan()">📷 Start kamera</button>
+<button class="fb fgh" id="qrStBtn" onclick="stopQRScan()" style="display:none">✕ Stopp</button>
+</div>
+</div>
+</div>
+
+<div class="sc" id="scSettings">
+<div class="sft"></div>
+<div class="bar"><div class="btit">⚙️ Innstillinger</div><div class="ib" onclick="goTo('home')">✕</div></div>
+<div class="scrl">
+<div class="sec">Navigasjon</div>
+<div class="card">
+<div class="strow" onclick="goTo('suppliers')" style="cursor:pointer"><div class="stl"><div class="stic" style="background:var(--gr3)">🏭</div><div><div class="stnm">Leverandører</div><div class="sts" id="supCnt">0 leverandører</div></div></div><span style="color:var(--mt);font-size:18px">›</span></div>
+<div class="strow" onclick="goTo('templates')" style="cursor:pointer"><div class="stl"><div class="stic" style="background:var(--pu3)">📋</div><div><div class="stnm">Ukesmaler</div><div class="sts">Lagre faste bestillinger</div></div></div><span style="color:var(--mt);font-size:18px">›</span></div>
+<div class="strow" onclick="goTo('report')" style="cursor:pointer"><div class="stl"><div class="stic" style="background:var(--or3)">📈</div><div><div class="stnm">Ukesrapport</div><div class="sts">Oversikt siste 7 dager</div></div></div><span style="color:var(--mt);font-size:18px">›</span></div>
+<div class="strow" onclick="goTo('qrsync')" style="cursor:pointer"><div class="stl"><div class="stic" style="background:var(--cy3)">📱</div><div><div class="stnm">QR Sync</div><div class="sts">Del data mellom to telefoner</div></div></div><span style="color:var(--mt);font-size:18px">›</span></div>
+<div class="strow" onclick="goTo('scanner')" style="cursor:pointer"><div class="stl"><div class="stic" style="background:var(--bl3)">📷</div><div><div class="stnm">Strekkodeskanner</div><div class="sts">Skann produkt raskt</div></div></div><span style="color:var(--mt);font-size:18px">›</span></div>
+</div>
+<div class="sec" style="margin-top:14px">Utseende</div>
+<div class="card"><div class="strow"><div class="stl"><div class="stic" style="background:rgba(234,179,8,.12)">🌙</div><div><div class="stnm">Mørk/Lys modus</div><div class="sts">Bytt utseende</div></div></div><div class="tog on" id="togDark" onclick="toggleDark()"><div class="tok"></div></div></div></div>
+<div class="sec" style="margin-top:14px">🔔 Påminnelser</div>
+<div class="card">
+<div class="strow"><div class="stl"><div class="stic" style="background:var(--or3)">🔔</div><div><div class="stnm">Bestillingspåminnelse</div><div class="sts" id="remSt">Ikke aktivert</div></div></div><button class="sbt" style="background:var(--or3);color:var(--or2)" onclick="reqReminder()" id="remBtn">Aktiver</button></div>
+<div class="strow" id="remDayRow" style="display:none"><div class="stl"><div class="stic" style="background:var(--or3)">📅</div><div><div class="stnm">Påminnelsesdag</div></div></div><select id="remDay" onchange="saveReminder()" style="background:var(--s2);border:1px solid var(--bdr2);border-radius:10px;padding:7px 12px;color:var(--tx);font-family:var(--fn);font-size:13px;font-weight:600;outline:none"><option value="1">Mandag</option><option value="2">Tirsdag</option><option value="3">Onsdag</option><option value="4">Torsdag</option><option value="5">Fredag</option><option value="6">Lørdag</option><option value="0">Søndag</option></select></div>
+</div>
+<div class="sec" style="margin-top:14px">Data</div>
+<div class="card">
+<div class="strow"><div class="stl"><div class="stic" style="background:var(--bl3)">💾</div><div><div class="stnm">Eksporter</div><div class="sts">Last ned sikkerhetskopi</div></div></div><button class="sbt" style="background:var(--bl3);color:var(--bl2)" onclick="exportData()">Eksporter</button></div>
+<div class="strow"><div class="stl"><div class="stic" style="background:var(--gr3)">📥</div><div><div class="stnm">Importer</div><div class="sts">Last opp sikkerhetskopi</div></div></div><button class="sbt" style="background:var(--gr3);color:var(--gr2)" onclick="document.getElementById('impF').click()">Importer</button></div>
+<div class="strow"><div class="stl"><div class="stic" style="background:var(--rd3)">🗑</div><div><div class="stnm">Nullstill alt</div><div class="sts">Slett alle data</div></div></div><button class="sbt" style="background:var(--rd3);color:var(--rd2)" onclick="resetAll()">Nullstill</button></div>
+</div>
+<div class="sec" style="margin-top:14px">Om</div>
+<div class="card"><div class="strow"><div class="stl"><div class="stic" style="background:var(--bl3)">🛒</div><div><div class="stnm">ButikkApp Pro</div><div class="sts">v2.0 · Bestilling + Pris + Sync</div></div></div><span style="font-size:11px;color:var(--mt)">v2.0</span></div></div>
+</div>
+<div class="bnav">
+<div class="bni" onclick="goTo('home')"><div class="bic">🏠</div><div class="blb">Hjem</div></div>
+<div class="bni" onclick="goTo('order')"><div class="bic">🛍️</div><div class="blb">Produkter</div></div>
+<div class="bni" onclick="goTo('cart')"><div class="bic">🛒</div><div class="blb">Bestilling</div></div>
+<div class="bni" onclick="goTo('price')"><div class="bic">💰</div><div class="blb">Pris</div></div>
+<div class="bni on" onclick="goTo('settings')"><div class="bic">⚙️</div><div class="blb">Innstillinger</div></div>
+</div>
+</div>
+
+<div class="ov" id="ovProd" onclick="if(event.target===this)closeOv('ovProd')">
+<div class="modal">
+<div class="mh"></div>
+<div class="mt" id="mpT">➕ Legg til produkt</div>
+<div class="ml">Produktnavn *</div><input class="mi" id="mpN" placeholder="f.eks. Tomater, Bananer...">
+<div class="ml">Beskrivelse (valgfritt)</div><input class="mi" id="mpD" placeholder="f.eks. Kasse 10kg...">
+<div class="ml">Emoji</div><input class="mi" id="mpE" placeholder="🍅">
+<div class="ml">Vanlig mengde (valgfritt)</div><input class="mi" id="mpU" placeholder="f.eks. 3 kasser">
+<div class="ml">Leverandør</div><div id="mpSS" class="mrow"></div>
+<div class="ml">Kategori</div><div id="mpCS" class="mrow"></div>
+<button class="mc" onclick="confirmProd()">✓ Lagre produkt</button>
+<button class="md" id="mpDel" style="display:none" onclick="deleteProd()">🗑 Slett produkt</button>
+</div>
+</div>
+
+<div class="ov" id="ovSup" onclick="if(event.target===this)closeOv('ovSup')">
+<div class="modal">
+<div class="mh"></div>
+<div class="mt" id="msT">🏭 Legg til leverandør</div>
+<div class="ml">Leverandørnavn *</div><input class="mi" id="msN" placeholder="f.eks. Bama Gruppen">
+<div class="ml">WhatsApp / Telefon</div><input class="mi" id="msPh" placeholder="4712345678" type="tel">
+<div class="ml">E-post</div><input class="mi" id="msEm" placeholder="bestilling@leverandor.no" type="email">
+<div class="ml">Nettside / Portal</div><input class="mi" id="msWb" placeholder="https://bestilling.leverandor.no">
+<div class="ml">Kontaktperson</div><input class="mi" id="msCo" placeholder="Navn">
+<div class="ml">Leveringsdager</div><input class="mi" id="msDy" placeholder="f.eks. Mandag, Torsdag">
+<div class="ml">Minimumsbestilling</div><input class="mi" id="msMn" placeholder="f.eks. 500 kr">
+<div class="ml">Velg farge</div><div class="mrow" id="clrPick"></div>
+<button class="mc" onclick="confirmSup()">✓ Lagre leverandør</button>
+<button class="md" id="msDel" style="display:none" onclick="deleteSup()">🗑 Slett leverandør</button>
+</div>
+</div>
+
+<div class="ov" id="ovFactor" onclick="if(event.target===this)closeOv('ovFactor')">
+<div class="modal">
+<div class="mh"></div>
+<div class="mt">📈 Fortjeneste-faktor</div>
+<input class="finp" id="fInp" type="number" inputmode="decimal" step="0.1" placeholder="1.7">
+<div class="fgrd">
+<button class="fqb" onclick="pickF(1.4)">×1.4</button><button class="fqb" onclick="pickF(1.5)">×1.5</button><button class="fqb" onclick="pickF(1.6)">×1.6</button>
+<button class="fqb on" onclick="pickF(1.7)">×1.7</button><button class="fqb" onclick="pickF(1.8)">×1.8</button><button class="fqb" onclick="pickF(2.0)">×2.0</button>
+</div>
+<div style="background:var(--s2);border-radius:12px;padding:12px;margin-bottom:12px;font-size:12px;color:var(--mt2)">💡 Med ×1.7: Kostpris 100 kr → Salgspris 170 kr (70 kr fortjeneste)</div>
+<button class="mc" onclick="confirmFactor()">✓ Bekreft</button>
+</div>
+</div>
+
+<input type="file" id="impF" accept=".json" style="display:none" onchange="importData(event)">
+<div class="toast" id="toastEl"></div>
+</div>
+
+<script>
+const K={sup:"ba_sup",prod:"ba_prod",cart:"ba_cart",hist:"ba_hist",note:"ba_note",dark:"ba_dark",phist:"ba_pricehist",tmpl:"ba_templates",shist:"ba_scanhist",remday:"ba_remday"};
+const DAYS=["Søndag","Mandag","Tirsdag","Onsdag","Torsdag","Fredag","Lørdag"];
+const COLORS=["#10b981","#3b82f6","#f59e0b","#8b5cf6","#ef4444","#06b6d4","#ec4899","#84cc16","#f97316","#6366f1"];
+const CATS=["🥬 Grønt","🍎 Frukt","🥛 Meieri","🥫 Hermetikk","🧃 Drikke","🌶️ Krydder","🫘 Belgfrukt","🍞 Bakeri","❄️ Frossen","🧴 Rengjøring","📦 Annet"];
+
+function ls(k,d){try{const v=localStorage.getItem(k);return v!=null?JSON.parse(v):d;}catch(e){return d;}}
+function lsw(k,v){try{localStorage.setItem(k,JSON.stringify(v));}catch(e){toast("⚠️ Lagringsfeil");}}
+
+let suppliers=ls(K.sup,[
+{id:"s1",name:"Bama Gruppen",phone:"4722345678",email:"bestilling@bama.no",web:"https://bama.no",contact:"Ola Nordmann",days:"Man, Tors",min:"1000 kr",color:"#10b981"},
+{id:"s2",name:"Asko Norge",phone:"4723456789",email:"ordre@asko.no",web:"https://asko.no",contact:"Kari Hansen",days:"Tir, Fre",min:"500 kr",color:"#3b82f6"},
+{id:"s3",name:"Frukt & Grønt AS",phone:"4724567890",email:"",web:"",contact:"",days:"Daglig",min:"",color:"#f59e0b"},
+{id:"s4",name:"Kolonial Grossist",phone:"4725678901",email:"",web:"",contact:"",days:"Ons",min:"",color:"#8b5cf6"}
+]);
+let products=ls(K.prod,[
+{id:"p1",name:"Tomater",desc:"Kasse 6kg",emoji:"🍅",usual:"3 kasser",sup:"s1",cat:"🥬 Grønt"},
+{id:"p2",name:"Agurk",desc:"",emoji:"🥒",usual:"",sup:"s1",cat:"🥬 Grønt"},
+{id:"p3",name:"Salat Isberg",desc:"",emoji:"🥬",usual:"",sup:"s1",cat:"🥬 Grønt"},
+{id:"p4",name:"Paprika rød",desc:"Kasse 5kg",emoji:"🫑",usual:"",sup:"s3",cat:"🥬 Grønt"},
+{id:"p5",name:"Løk gul",desc:"Pose 5kg",emoji:"🧅",usual:"2 poser",sup:"s3",cat:"🥬 Grønt"},
+{id:"p6",name:"Hvitløk",desc:"Nett",emoji:"🧄",usual:"",sup:"s3",cat:"🥬 Grønt"},
+{id:"p7",name:"Brokkoli",desc:"",emoji:"🥦",usual:"",sup:"s1",cat:"🥬 Grønt"},
+{id:"p8",name:"Gulrot",desc:"Pose 1kg",emoji:"🥕",usual:"",sup:"s1",cat:"🥬 Grønt"},
+{id:"p9",name:"Poteter",desc:"Sekk 10kg",emoji:"🥔",usual:"1 sekk",sup:"s3",cat:"🥬 Grønt"},
+{id:"p10",name:"Bananer",desc:"Kasse 18kg",emoji:"🍌",usual:"2 kasser",sup:"s3",cat:"🍎 Frukt"},
+{id:"p11",name:"Epler Granny",desc:"Kasse 13kg",emoji:"🍏",usual:"",sup:"s1",cat:"🍎 Frukt"},
+{id:"p12",name:"Appelsin",desc:"Kasse 15kg",emoji:"🍊",usual:"",sup:"s3",cat:"🍎 Frukt"},
+{id:"p13",name:"Avokado",desc:"Kasse",emoji:"🥑",usual:"",sup:"s3",cat:"🍎 Frukt"},
+{id:"p14",name:"Helmelk 1L",desc:"Krt 12stk",emoji:"🥛",usual:"5 krt",sup:"s2",cat:"🥛 Meieri"},
+{id:"p15",name:"Smør 500g",desc:"Krt",emoji:"🧈",usual:"",sup:"s2",cat:"🥛 Meieri"},
+{id:"p16",name:"Ost Norvegia",desc:"500g",emoji:"🧀",usual:"",sup:"s2",cat:"🥛 Meieri"},
+{id:"p17",name:"Tunfisk boks",desc:"Krt 24stk",emoji:"🐟",usual:"2 krt",sup:"s4",cat:"🥫 Hermetikk"},
+{id:"p18",name:"Tomatpuré",desc:"Krt 400g",emoji:"🫙",usual:"",sup:"s4",cat:"🥫 Hermetikk"},
+{id:"p19",name:"Juice 1L",desc:"Krt 12stk",emoji:"🧃",usual:"",sup:"s2",cat:"🧃 Drikke"},
+{id:"p20",name:"Vann 0.5L",desc:"Brett 24",emoji:"💧",usual:"",sup:"s4",cat:"🧃 Drikke"},
+{id:"p21",name:"Salt 1kg",desc:"",emoji:"🧂",usual:"",sup:"s4",cat:"🌶️ Krydder"},
+{id:"p22",name:"Kikærter",desc:"Boks 400g",emoji:"🫘",usual:"",sup:"s4",cat:"🫘 Belgfrukt"}
+]);
+let cart=ls(K.cart,{});
+let history=ls(K.hist,[]);
+let orderNote=ls(K.note,"");
+let darkMode=ls(K.dark,true);
+let priceHistory=ls(K.phist,[]);
+let templates=ls(K.tmpl,[]);
+let scanHistory=ls(K.shist,[]);
+let reminderDay=ls(K.remday,null);
+
+let curSc="home",actSup="all",actCat="all",srchOpen=false;
+let editProdId=null,editSupId=null,selClr=COLORS[0],selSup="",selCat=CATS[0];
+let pMva=15,pFactor=1.7;
+let scanStream=null,qrStream=null;
+
+function applyMode(){document.body.classList.toggle("lm",!darkMode);document.getElementById("togDark").classList.toggle("on",darkMode);}
+applyMode();
+
+function goTo(sc){
+if(curSc===sc)return;
+const prev=document.getElementById("sc"+cap(curSc));
+const next=document.getElementById("sc"+cap(sc));
+if(!next)return;
+prev.classList.remove("on");prev.classList.add("pv");
+next.classList.remove("pv");next.classList.add("on");
+setTimeout(function(){prev.classList.remove("pv");},340);
+curSc=sc;
+if(sc==="home")renderHome();
+if(sc==="order"){renderSupTabs();renderCatPills();renderProds();}
+if(sc==="cart"){renderCart();showSmart();showDelivAlt();}
+if(sc==="stats")renderStats();
+if(sc==="suppliers")renderSups();
+if(sc==="templates")renderTmpl();
+if(sc==="report")renderReport();
+if(sc==="scanner")renderScanHist();
+if(sc==="settings"){document.getElementById("supCnt").textContent=suppliers.length+" leverandører";initReminder();}
+updateBadge();
+}
+function cap(s){return s.charAt(0).toUpperCase()+s.slice(1);}
+
+function renderHome(){
+var now=new Date();var h=now.getHours();
+var gr=h<12?"God morgen! ☀️":h<17?"God dag! 👋":"God kveld! 🌙";
+document.getElementById("hDay").textContent=DAYS[now.getDay()]+" · "+now.toLocaleDateString("no-NO",{day:"2-digit",month:"long"});
+document.getElementById("hGr").textContent=gr;
+document.getElementById("hsP").textContent=products.length;
+document.getElementById("hsO").textContent=history.length;
+document.getElementById("hsS").textContent=suppliers.length;
+var cc=Object.keys(cart).length;
+document.getElementById("qaCS").textContent=cc>0?cc+" produkter klar":"Tom liste";
+var today=DAYS[now.getDay()];var tShort=today.slice(0,3);
+var match=suppliers.filter(function(s){return s.days&&(s.days.indexOf(today)>-1||s.days.indexOf(tShort)>-1||s.days.toLowerCase().indexOf("daglig")>-1);});
+var ah="";
+if(match.length)ah+="<div class=\"alt agr\"><div style=\"font-size:20px\">🚛</div><div><div class=\"atit\" style=\"color:var(--gr2)\">Levering i dag!</div><div class=\"asub\">"+match.map(function(s){return "<span style=\"display:inline-block;background:"+s.color+";color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin:2px\">"+s.name+"</span>";}).join("")+"</div></div></div>";
+if(cc>0)ah+="<div class=\"alt ablu\" onclick=\"goTo('cart')\" style=\"cursor:pointer\"><div style=\"font-size:20px\">📦</div><div><div class=\"atit\" style=\"color:var(--bl2)\">Bestilling klar!</div><div class=\"asub\">"+cc+" produkter venter →</div></div></div>";
+document.getElementById("homeAlerts").innerHTML=ah;
+var rl=document.getElementById("recentList");
+if(!history.length){rl.innerHTML="<div class=\"empty\" style=\"padding:24px\"><div class=\"emo\" style=\"font-size:32px\">📋</div><p style=\"font-size:13px\">Ingen historikk ennå</p></div>";return;}
+rl.innerHTML=history.slice(0,4).map(function(hh,i){
+var d=new Date(hh.time);
+return "<div class=\"crow\" onclick=\"loadHistOrder("+i+")\" style=\"cursor:pointer\"><div style=\"width:36px;height:36px;border-radius:10px;background:var(--bl3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0\">📋</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:600\">"+hh.items+" produkter · "+hh.qty+" enheter</div><div style=\"font-size:11px;color:var(--mt2);margin-top:2px\">"+d.toLocaleDateString("no-NO",{day:"2-digit",month:"short"})+" "+d.toLocaleTimeString("no-NO",{hour:"2-digit",minute:"2-digit"})+(hh.note?" · 📝":"")+"</div></div><span style=\"font-size:12px;color:var(--mt)\">Last inn ›</span></div>";
+}).join("");
+}
+
+function showDelivAlt(){
+var now=new Date();var today=DAYS[now.getDay()];var tShort=today.slice(0,3);
+var m=suppliers.filter(function(s){return s.days&&(s.days.indexOf(today)>-1||s.days.indexOf(tShort)>-1||s.days.toLowerCase().indexOf("daglig")>-1);});
+var el=document.getElementById("delivAlt");if(!el)return;
+el.innerHTML=m.length?"<div class=\"alt ablu\"><div style=\"font-size:20px\">🚛</div><div><div class=\"atit\" style=\"color:var(--bl2)\">Levering i dag ("+today+")</div><div class=\"asub\">"+m.map(function(s){return "<span style=\"display:inline-block;background:"+s.color+";color:#fff;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700;margin:2px\">"+s.name+"</span>";}).join("")+"</div></div></div>":"";
+}
+
+function showSmart(){
+var last=history[0];var b=document.getElementById("smrtB");
+if(!last||Object.keys(cart).length>0){b.style.display="none";return;}
+var d=new Date(last.time);
+document.getElementById("smrtSub").textContent=d.toLocaleDateString("no-NO",{weekday:"short",day:"2-digit",month:"short"})+" · "+last.items+" produkter";
+b.style.display="flex";
+}
+function loadLast(){var l=history[0];if(!l||!l.cart)return;cart=Object.assign({},l.cart);lsw(K.cart,cart);renderCart();updateBadge();document.getElementById("smrtB").style.display="none";toast("✅ Siste bestilling lastet inn!");}
+
+function renderSupTabs(){
+var h="<div class=\"stb "+(actSup==="all"?"on":"")+"\" onclick=\"setSup('all')\">🌍 Alle</div>";
+suppliers.forEach(function(s){h+="<div class=\"stb "+(actSup===s.id?"on":"")+"\" onclick=\"setSup('"+s.id+"')\"><span style=\"width:7px;height:7px;border-radius:50%;background:"+s.color+";flex-shrink:0;display:inline-block\"></span>"+s.name+"</div>";});
+document.getElementById("supTabs").innerHTML=h;
+}
+function setSup(id){actSup=id;actCat="all";renderSupTabs();renderCatPills();renderProds();}
+function renderCatPills(){
+var vis=actSup==="all"?products:products.filter(function(p){return p.sup===actSup;});
+var cats=vis.map(function(p){return p.cat;}).filter(function(c,i,a){return a.indexOf(c)===i;});
+var h="<div class=\"cpl "+(actCat==="all"?"on":"")+"\" onclick=\"setCat('all')\">📦 Alle</div>";
+cats.forEach(function(c){h+="<div class=\"cpl "+(actCat===c?"on":"")+"\" onclick=\"setCat('"+c+"')\">"+c+"</div>";});
+document.getElementById("catPills").innerHTML=h;
+}
+function setCat(c){actCat=c;renderProds();}
+
+function renderProds(){
+var q=(document.getElementById("srchInp")?document.getElementById("srchInp").value:"").toLowerCase();
+var prods=products;
+if(actSup!=="all")prods=prods.filter(function(p){return p.sup===actSup;});
+if(actCat!=="all")prods=prods.filter(function(p){return p.cat===actCat;});
+if(q)prods=prods.filter(function(p){return p.name.toLowerCase().indexOf(q)>-1||(p.desc||"").toLowerCase().indexOf(q)>-1;});
+if(!prods.length){document.getElementById("prodList").innerHTML="<div class=\"empty\"><div class=\"emo\">🔍</div><p>Ingen produkter funnet</p></div>";return;}
+document.getElementById("prodList").innerHTML=prods.map(function(p){
+var qty=cart[p.id]||0;var sup=suppliers.find(function(s){return s.id===p.sup;});
+return "<div class=\"prw "+(qty>0?"io":"")+"\" id=\"pr_"+p.id+"\"><div class=\"pck\">✓</div><div class=\"pem\">"+(p.emoji||"📦")+"</div><div class=\"pif\">"+(sup?"<div class=\"psp\"><span class=\"sdt\" style=\"background:"+sup.color+"\"></span>"+sup.name+"</div>":"")+"<div class=\"pnm\">"+p.name+"</div>"+(p.desc?"<div class=\"pds\">"+p.desc+"</div>":"")+(p.usual?"<div class=\"pus\">📦 "+p.usual+"</div>":"")+"</div><div class=\"qcr\"><button class=\"qbn\" onclick=\"chQty('"+p.id+"',-1)\">−</button><span class=\"qvl\" id=\"qv_"+p.id+"\">"+qty+"</span><button class=\"qbn qpl\" onclick=\"chQty('"+p.id+"',1)\">＋</button></div><button class=\"ped\" onclick=\"openAddProd('"+p.id+"')\">✏️</button></div>";
+}).join("");
+}
+function chQty(pid,d){
+cart[pid]=(cart[pid]||0)+d;if(cart[pid]<=0)delete cart[pid];
+var qv=document.getElementById("qv_"+pid);var pr=document.getElementById("pr_"+pid);
+if(qv)qv.textContent=cart[pid]||0;if(pr)pr.classList.toggle("io",!!cart[pid]);
+lsw(K.cart,cart);updateBadge();
+}
+function updateBadge(){
+var t=Object.values(cart).reduce(function(s,v){return s+v;},0);
+for(var i=1;i<=10;i++){var el=document.getElementById("b"+i);if(el){el.textContent=t;el.classList.toggle("on",t>0);}}
+}
+function togSearch(){
+srchOpen=!srchOpen;
+document.getElementById("srchBar").style.display=srchOpen?"block":"none";
+if(srchOpen)setTimeout(function(){document.getElementById("srchInp").focus();},100);
+else{document.getElementById("srchInp").value="";renderProds();}
+}
+
+function renderCart(){
+document.getElementById("ordNote").value=orderNote;
+var keys=Object.keys(cart);
+document.getElementById("csI").textContent=keys.length;
+document.getElementById("csQ").textContent=Object.values(cart).reduce(function(s,v){return s+v;},0);
+var sups=new Set(keys.map(function(k){var p=products.find(function(pr){return pr.id===k;});return p?p.sup:null;}).filter(Boolean));
+document.getElementById("csS").textContent=sups.size;
+if(!keys.length){document.getElementById("cartList").innerHTML="<div class=\"cgrp\"><div class=\"empty\"><div class=\"emo\">🛒</div><p>Ingen produkter.<br>Gå til Produkter og legg til!</p></div></div>";return;}
+var grps={};
+keys.forEach(function(pid){var p=products.find(function(pr){return pr.id===pid;});if(!p)return;if(!grps[p.sup])grps[p.sup]=[];grps[p.sup].push(p);});
+var h="";
+Object.keys(grps).forEach(function(sid){
+var prods=grps[sid];
+var sup=suppliers.find(function(s){return s.id===sid;})||{name:"Ukjent",color:"#666"};
+var waB=sup.phone?"<button class=\"cgwa\" onclick=\"sendWA('"+sid+"')\">💬 WA</button>":"";
+h+="<div class=\"cgrp\"><div class=\"cghd\"><div class=\"cgdt\" style=\"background:"+sup.color+"\"></div><div class=\"cgnm\" style=\"color:"+sup.color+"\">"+sup.name+"</div><div class=\"cgct\">"+prods.length+" varer</div>"+waB+"</div>";
+prods.forEach(function(p){h+="<div class=\"cit\"><div class=\"cem\">"+(p.emoji||"📦")+"</div><div class=\"cbo\"><div class=\"cnm\">"+p.name+"</div>"+(p.desc?"<div class=\"cds\">"+p.desc+"</div>":"")+(p.usual?"<div class=\"cus\">Vanlig: "+p.usual+"</div>":"")+"</div><div class=\"cqr\"><button class=\"cqb\" onclick=\"chCQ('"+p.id+"',-1)\">−</button><span class=\"cqv\" id=\"cq_"+p.id+"\">"+cart[p.id]+"</span><button class=\"cqb\" onclick=\"chCQ('"+p.id+"',1)\">＋</button><button class=\"dbt\" onclick=\"rmCart('"+p.id+"')\">✕</button></div></div>";});
+h+="</div>";
+});
+document.getElementById("cartList").innerHTML=h;
+}
+function chCQ(pid,d){cart[pid]=(cart[pid]||0)+d;if(cart[pid]<=0){rmCart(pid);return;}var el=document.getElementById("cq_"+pid);if(el)el.textContent=cart[pid];lsw(K.cart,cart);renderCart();updateBadge();}
+function rmCart(pid){delete cart[pid];lsw(K.cart,cart);renderCart();updateBadge();}
+function saveNote(){orderNote=document.getElementById("ordNote").value;lsw(K.note,orderNote);}
+function clearCart(){
+if(!Object.keys(cart).length)return;
+history.unshift({time:Date.now(),items:Object.keys(cart).length,qty:Object.values(cart).reduce(function(s,v){return s+v;},0),note:orderNote,cart:Object.assign({},cart)});
+if(history.length>40)history.pop();lsw(K.hist,history);
+cart={};lsw(K.cart,cart);orderNote="";lsw(K.note,orderNote);
+renderCart();updateBadge();toast("✅ Bestilling lagret i historikk");
+}
+
+function buildTxt(sid){
+var now=new Date().toLocaleDateString("no-NO",{weekday:"long",day:"2-digit",month:"long"});
+var t="🛒 BESTILLING – "+now.toUpperCase()+"\n"+"─".repeat(30)+"\n";
+var grps={};
+Object.keys(cart).forEach(function(pid){var p=products.find(function(pr){return pr.id===pid;});if(!p)return;if(sid&&p.sup!==sid)return;if(!grps[p.sup])grps[p.sup]=[];grps[p.sup].push(p);});
+Object.keys(grps).forEach(function(s){
+var prods=grps[s];
+var sup=suppliers.find(function(x){return x.id===s;})||{name:"Ukjent"};
+t+="\n📦 "+sup.name+"\n";
+prods.forEach(function(p){t+="  • "+p.emoji+" "+p.name+(p.desc?" ("+p.desc+")":"")+" — "+cart[p.id]+" stk\n";});
+});
+if(orderNote)t+="\n📝 "+orderNote+"\n";
+t+="\n"+"─".repeat(30)+"\nTotalt: "+Object.keys(cart).length+" produkter";
+return t;
+}
+function sendWA(sid){
+if(!Object.keys(cart).length){toast("⚠️ Tom bestilling");return;}
+var t=encodeURIComponent(buildTxt(sid));
+if(sid){var s=suppliers.find(function(s){return s.id===sid;});if(s&&s.phone){window.open("https://wa.me/"+s.phone.replace(/\D/g,"")+"?text="+t,"_blank");return;}}
+var sups=Object.keys(cart).map(function(pid){var p=products.find(function(p){return p.id===pid;});return p?p.sup:null;}).filter(Boolean);
+sups=sups.filter(function(v,i,a){return a.indexOf(v)===i;});
+if(sups.length===1){var s2=suppliers.find(function(s){return s.id===sups[0];});if(s2&&s2.phone){window.open("https://wa.me/"+s2.phone.replace(/\D/g,"")+"?text="+t,"_blank");return;}}
+window.open("https://wa.me/?text="+t,"_blank");
+}
+function copyOrder(){if(!Object.keys(cart).length){toast("⚠️ Tom bestilling");return;}var t=buildTxt();if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){toast("📋 Kopiert!");}).catch(function(){fallbackCopy(t);});}else fallbackCopy(t);}
+function fallbackCopy(t){var ta=document.createElement("textarea");ta.value=t;document.body.appendChild(ta);ta.select();document.execCommand("copy");document.body.removeChild(ta);toast("📋 Kopiert!");}
+function printOrder(){
+if(!Object.keys(cart).length){toast("⚠️ Tom bestilling");return;}
+var now=new Date().toLocaleDateString("no-NO",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+var grps={};Object.keys(cart).forEach(function(pid){var p=products.find(function(pr){return pr.id===pid;});if(!p)return;if(!grps[p.sup])grps[p.sup]=[];grps[p.sup].push(p);});
+var tables="";
+Object.keys(grps).forEach(function(sid){
+var prods=grps[sid];
+var sup=suppliers.find(function(s){return s.id===sid;})||{name:"Ukjent",color:"#166534"};
+var rows=prods.map(function(p,i){return "<tr style=\"background:"+(i%2===0?"#f9fafb":"#fff")+"\"><td style=\"font-size:19px;text-align:center;padding:9px 6px\">"+(p.emoji||"📦")+"</td><td style=\"font-weight:700;padding:9px 6px\">"+p.name+"</td><td style=\"color:#666;padding:9px 6px;font-size:9pt\">"+(p.desc||"")+"</td><td style=\"text-align:center;font-weight:900;font-size:16pt;color:#1565c0;padding:9px 6px\">"+cart[p.id]+"</td><td style=\"text-align:center;font-size:16px;padding:9px 6px\">☐</td></tr>";}).join("");
+tables+="<div style=\"margin-bottom:22px\"><div style=\"background:"+sup.color+";color:#fff;padding:10px 16px;border-radius:8px 8px 0 0;font-weight:700;font-size:13pt;display:flex;justify-content:space-between\"><span>📦 "+sup.name+"</span><span style=\"font-size:9pt;font-weight:400;opacity:.9\">"+[sup.phone?"📞 "+sup.phone:"",sup.days?"🚛 "+sup.days:""].filter(Boolean).join(" · ")+"</span></div><table style=\"width:100%;border-collapse:collapse;font-size:10pt\"><thead><tr style=\"background:#f1f5f9\"><th style=\"padding:7px 6px;width:36px\"></th><th style=\"text-align:left;padding:7px 6px\">Produkt</th><th style=\"text-align:left;padding:7px 6px;color:#666\">Beskrivelse</th><th style=\"padding:7px 6px;color:#1565c0\">Antall</th><th style=\"padding:7px 6px\">✓</th></tr></thead><tbody>"+rows+"</tbody></table></div>";
+});
+var tot=Object.values(cart).reduce(function(s,v){return s+v;},0);
+var noteH=orderNote?"<div style=\"margin-bottom:14px;padding:10px 14px;background:#fff9e6;border-left:3px solid #eab308;border-radius:4px\"><strong>📝</strong> "+orderNote+"</div>":"";
+var html="<style>@page{size:A4;margin:14mm}body{font-family:Arial,sans-serif;color:#111;margin:0}table td,table th{border-bottom:1px solid #e5e7eb}</style><div style=\"display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:16px\"><div><h1 style=\"font-size:20pt;color:#166534;margin:0 0 4px\">🛒 Bestillingsliste</h1><div style=\"color:#666;font-size:10pt\">"+now+"</div></div><div style=\"text-align:right;font-size:10pt;color:#444\"><strong>"+Object.keys(cart).length+"</strong> prod · <strong>"+tot+"</strong> enheter<br><br>Signatur: ___________</div></div>"+noteH+tables;
+var w=window.open("","_blank","width=794,height=1123");w.document.write("<!DOCTYPE html><html><body>"+html+"</body></html>");w.document.close();setTimeout(function(){w.print();},600);
+}
+
+function setMva(v){
+pMva=v;
+["ms0","ms15","ms25"].forEach(function(id){var el=document.getElementById(id);if(el)el.className="msb";});
+if(v===0)document.getElementById("ms0").className="msb m0";
+if(v===15)document.getElementById("ms15").className="msb m15";
+if(v===25)document.getElementById("ms25").className="msb m25";
+var mr=document.getElementById("mvaRR");if(mr)mr.style.display=v===0?"none":"flex";
+var rml=document.getElementById("rML");if(rml)rml.textContent="+ MVA "+v+"%";
+var rkl=document.getElementById("rKL");if(rkl)rkl.textContent=v===0?"Kostpris pr. stk":"Kostpris pr. stk m/MVA";
+calcPrice();
+}
+function openFactor(){var fi=document.getElementById("fInp");if(fi)fi.value=pFactor;pickF(pFactor);openOv("ovFactor");setTimeout(function(){if(fi)fi.focus();},200);}
+function pickF(v){pFactor=v;var fi=document.getElementById("fInp");if(fi)fi.value=v;document.querySelectorAll(".fqb").forEach(function(b){b.classList.toggle("on",parseFloat(b.textContent.replace("×",""))===v);});}
+function confirmFactor(){var v=parseFloat(document.getElementById("fInp").value);if(!isNaN(v)&&v>0){pFactor=v;var fb=document.getElementById("fBdg");if(fb)fb.textContent="×"+v;}closeOv("ovFactor");calcPrice();}
+function fmt(n){return n.toLocaleString("no-NO",{minimumFractionDigits:2,maximumFractionDigits:2})+" kr";}
+function calcPrice(){
+var g=parseFloat(document.getElementById("pGross")?document.getElementById("pGross").value:0)||0;
+var a=parseFloat(document.getElementById("pAntall")?document.getElementById("pAntall").value:1)||1;
+var name=document.getElementById("pName")?document.getElementById("pName").value.trim():"";
+var plbl=document.getElementById("phLbl");if(plbl)plbl.textContent=name?"💰 "+name:"Salgspris pr. stk";
+if(g<=0){
+["rPr","rMva","rKost"].forEach(function(id){var el=document.getElementById(id);if(el)el.textContent="—";});
+var pp=document.getElementById("phPrc");if(pp)pp.textContent="— kr";
+var pc=document.getElementById("phCh");if(pc)pc.innerHTML="<div class=\"chp\">Tast inn pris og antall</div>";
+var ps=document.getElementById("pShareBtns");if(ps)ps.style.display="none";
+return;
+}
+var pr=g/a;var mvaA=pr*(pMva/100);var kost=pr+mvaA;var salg=kost*pFactor;var fort=(salg-kost)*a;
+document.getElementById("rPr").textContent=fmt(pr);
+document.getElementById("rMva").textContent=pMva>0?fmt(mvaA):"—";
+document.getElementById("rKost").textContent=fmt(kost);
+document.getElementById("phPrc").textContent=fmt(salg);
+var chips="<div class=\"chp o\">×"+pFactor+"</div>";
+if(pMva>0)chips+="<div class=\"chp b\">MVA "+pMva+"%</div>";
+chips+="<div class=\"chp g\">+"+fmt(fort)+"</div><div class=\"chp\">"+a+" stk</div>";
+document.getElementById("phCh").innerHTML=chips;
+var ps2=document.getElementById("pShareBtns");if(ps2)ps2.style.display="block";
+}
+function resetPrice(){
+["pGross","pAntall","pName"].forEach(function(id){var el=document.getElementById(id);if(el)el.value="";});
+var ps=document.getElementById("pShareBtns");if(ps)ps.style.display="none";
+setMva(15);pFactor=1.7;var fb=document.getElementById("fBdg");if(fb)fb.textContent="×1.7";calcPrice();
+}
+function buildPTxt(){
+var g=parseFloat(document.getElementById("pGross")?document.getElementById("pGross").value:0)||0;
+var a=parseFloat(document.getElementById("pAntall")?document.getElementById("pAntall").value:1)||1;
+var name=document.getElementById("pName")?document.getElementById("pName").value.trim():"";
+var pr=g/a;var kost=pr*(1+pMva/100);var salg=kost*pFactor;var fort=(salg-kost)*a;
+var t="💰 PRISBEREGNING\n"+"─".repeat(28)+"\n";
+if(name)t+="📦 "+name+"\n";
+t+="\nInnkjøp: "+fmt(g)+" ("+a+" stk)\nPris pr. stk: "+fmt(pr)+"\n";
+if(pMva>0)t+="+ MVA "+pMva+"%: "+fmt(pr*pMva/100)+"\n";
+t+="Kostpris pr. stk: "+fmt(kost)+"\n\n✅ Salgspris: "+fmt(salg)+"\n📈 Fortjeneste: "+fmt(fort)+" ("+a+" stk)\n\nFaktor: ×"+pFactor+" · MVA: "+pMva+"%";
+return t;
+}
+function sharePWA(){var t=encodeURIComponent(buildPTxt());window.open("https://wa.me/?text="+t,"_blank");}
+function copyPText(){var t=buildPTxt();if(navigator.clipboard){navigator.clipboard.writeText(t).then(function(){toast("📋 Kopiert!");}).catch(function(){fallbackCopy(t);});}else fallbackCopy(t);}
+function savePCalc(){
+var g=parseFloat(document.getElementById("pGross")?document.getElementById("pGross").value:0)||0;
+if(g<=0){toast("⚠️ Ingen beregning å lagre");return;}
+var a=parseFloat(document.getElementById("pAntall")?document.getElementById("pAntall").value:1)||1;
+var name=document.getElementById("pName")?document.getElementById("pName").value.trim():"";
+if(!name)name="Ukjent produkt";
+var pr=g/a;var kost=pr*(1+pMva/100);var salg=kost*pFactor;var fort=(salg-kost)*a;
+priceHistory.unshift({time:Date.now(),name:name,gross:g,antall:a,mva:pMva,factor:pFactor,kost:kost,salg:salg,fort:fort});
+if(priceHistory.length>30)priceHistory.pop();lsw(K.phist,priceHistory);renderPHist();toast("✅ Lagret!");
+}
+function renderPHist(){
+var sec=document.getElementById("phHistSec");var list=document.getElementById("pHistList");
+if(!sec||!list)return;
+if(!priceHistory.length){sec.style.display="none";list.style.display="none";return;}
+sec.style.display="flex";list.style.display="block";
+list.innerHTML=priceHistory.slice(0,10).map(function(h,i){
+var d=new Date(h.time);
+return "<div class=\"crow\" onclick=\"loadPCalc("+i+")\" style=\"cursor:pointer\"><div style=\"width:36px;height:36px;border-radius:10px;background:var(--or3);display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0\">💰</div><div style=\"flex:1;min-width:0\"><div style=\"font-size:13px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis\">"+h.name+"</div><div style=\"font-size:11px;color:var(--mt2);margin-top:2px\">"+h.antall+" stk · MVA "+h.mva+"% · ×"+h.factor+" · "+d.toLocaleDateString("no-NO",{day:"2-digit",month:"short"})+"</div></div><div style=\"text-align:right;flex-shrink:0\"><div style=\"font-family:var(--mo);font-size:13px;font-weight:700;color:var(--bl2)\">"+fmt(h.salg)+"</div><div style=\"font-size:10px;color:var(--gr2);margin-top:2px\">+"+fmt(h.fort)+"</div></div></div>";
+}).join("");
+}
+function loadPCalc(i){
+var h=priceHistory[i];
+var pn=document.getElementById("pName");if(pn)pn.value=h.name==="Ukjent produkt"?"":h.name;
+var pg=document.getElementById("pGross");if(pg)pg.value=h.gross;
+var pa=document.getElementById("pAntall");if(pa)pa.value=h.antall;
+pFactor=h.factor;var fb=document.getElementById("fBdg");if(fb)fb.textContent="×"+h.factor;
+setMva(h.mva);toast("📥 Lastet inn!");
+}
+function clearPHist(){priceHistory=[];lsw(K.phist,priceHistory);renderPHist();toast("🗑 Slettet");}
+
+function renderStats(){
+var el=document.getElementById("statsScr");if(!el)return;
+var freq={};history.forEach(function(h){if(h.cart)Object.keys(h.cart).forEach(function(pid){freq[pid]=(freq[pid]||0)+h.cart[pid];});});
+var top=Object.keys(freq).map(function(pid){return {pid:pid,cnt:freq[pid]};}).sort(function(a,b){return b.cnt-a.cnt;}).slice(0,8).map(function(x){return {p:products.find(function(pr){return pr.id===x.pid;}),cnt:x.cnt};}).filter(function(x){return x.p;});
+var totalQty=history.reduce(function(s,h){return s+(h.qty||0);},0);
+var h="<div class=\"sg2\"><div class=\"sbox\"><div class=\"snum\">"+history.length+"</div><div class=\"slbl\">📋 Bestillinger</div></div><div class=\"sbox\"><div class=\"snum\">"+totalQty+"</div><div class=\"slbl\">📦 Enheter</div></div><div class=\"sbox\"><div class=\"snum\">"+products.length+"</div><div class=\"slbl\">🛍️ Produkter</div></div><div class=\"sbox\"><div class=\"snum\">"+suppliers.length+"</div><div class=\"slbl\">🏭 Leverandører</div></div></div>";
+if(top.length){h+="<div class=\"sec\">🏆 Mest bestilte</div><div class=\"card\">"+top.map(function(x,i){return "<div class=\"ti\"><span class=\"tr\">#"+(i+1)+"</span><span class=\"te\">"+(x.p.emoji||"📦")+"</span><span class=\"tn\">"+x.p.name+"</span><span class=\"tc\">"+x.cnt+"×</span></div>";}).join("")+"</div>";}
+if(history.length){h+="<div class=\"sec\">🕐 Historikk</div><div class=\"card\">"+history.slice(0,20).map(function(hh,i){var d=new Date(hh.time);var sups=hh.cart?Object.keys(hh.cart).map(function(pid){var p=products.find(function(p){return p.id===pid;});return p?p.sup:null;}).filter(Boolean):[];sups=sups.filter(function(v,i,a){return a.indexOf(v)===i;});var snames=sups.map(function(sid){var s=suppliers.find(function(s){return s.id===sid;});return s?s.name:"";}).filter(Boolean).join(", ");return "<div class=\"hr\" onclick=\"loadHistOrder("+i+")\"><div class=\"hd\">"+d.toLocaleDateString("no-NO",{day:"2-digit",month:"short"})+"<br><span>"+d.toLocaleTimeString("no-NO",{hour:"2-digit",minute:"2-digit"})+"</span></div><div class=\"hb\"><div class=\"ht\">"+hh.items+" prod · "+hh.qty+" stk</div><div class=\"hm\">"+(snames||"—")+"</div>"+(hh.note?"<div class=\"hn\">\""+hh.note+"\"</div>":"")+"</div><div class=\"hq\">"+hh.qty+"</div></div>";}).join("")+"</div>";}
+else{h+="<div class=\"card\"><div class=\"empty\"><div class=\"emo\">📊</div><p>Ingen historikk ennå</p></div></div>";}
+el.innerHTML=h;
+}
+function loadHistOrder(i){var h=history[i];if(!h||!h.cart)return;cart=Object.assign({},h.cart);lsw(K.cart,cart);updateBadge();goTo("cart");toast("✅ Bestilling lastet inn!");}
+function clearHist(){if(!history.length)return;history=[];lsw(K.hist,history);renderStats();toast("🗑 Historikk slettet");}
+
+function renderSups(){
+var el=document.getElementById("supScr");if(!el)return;
+if(!suppliers.length){el.innerHTML="<div class=\"empty\"><div class=\"emo\">🏭</div><p>Ingen leverandører.<br>Trykk ➕</p></div>";return;}
+el.innerHTML=suppliers.map(function(s){
+var prods=products.filter(function(p){return p.sup===s.id;});
+var links=[
+s.phone?"<div class=\"irw\">📞 <a href=\"tel:+"+s.phone.replace(/\D/g,"")+"\">"+s.phone+"</a> <a href=\"https://wa.me/"+s.phone.replace(/\D/g,"")+"\" class=\"iwa2\">WA ↗</a></div>":"",
+s.email?"<div class=\"irw\">📧 <a href=\"mailto:"+s.email+"\">"+s.email+"</a></div>":"",
+s.web?"<div class=\"irw\">🌐 <a href=\""+s.web+"\" target=\"_blank\">"+s.web+"</a> <a href=\""+s.web+"\" target=\"_blank\" class=\"ilnk\">↗</a></div>":"",
+s.contact?"<div class=\"irw\">👤 "+s.contact+"</div>":"",
+s.days?"<div class=\"irw\">🚛 "+s.days+"</div>":"",
+s.min?"<div class=\"irw\">💰 Min. "+s.min+"</div>":""
+].filter(Boolean).join("");
+var plist=prods.length?"<div class=\"spls\">"+prods.map(function(p){return "<div class=\"spit\"><span class=\"spem\">"+(p.emoji||"📦")+"</span><div style=\"flex:1\"><div class=\"spna\">"+p.name+"</div>"+(p.desc?"<div class=\"spds\">"+p.desc+"</div>":"")+"</div><button class=\"spbt\" onclick=\"openAddProd('"+p.id+"')\">✏️</button></div>";}).join("")+"</div>":"<div style=\"padding:6px 14px 12px;font-size:12px;color:var(--mt)\">Ingen produkter</div>";
+return "<div class=\"supc\"><div class=\"sphd\"><div class=\"spdt\" style=\"background:"+s.color+"\"></div><div class=\"spnm\">"+s.name+"</div><button class=\"speb\" onclick=\"openAddSup('"+s.id+"')\">✏️ Rediger</button></div>"+links+"<div class=\"sphdr\">Produkter ("+prods.length+")</div>"+plist+"</div>";
+}).join("")+"<button class=\"fb fg\" onclick=\"openAddProd(null)\" style=\"margin:0 0 8px\">➕ Legg til produkt</button>";
+}
+
+function openAddSup(id){
+editSupId=id;var s=id?suppliers.find(function(s){return s.id===id;}):null;selClr=s?s.color:COLORS[0];
+document.getElementById("msT").textContent=id?"✏️ Rediger":"🏭 Ny leverandør";
+var fields=["msN","msPh","msEm","msWb","msCo","msDy","msMn"];var ks=["name","phone","email","web","contact","days","min"];
+fields.forEach(function(fid,i){document.getElementById(fid).value=s?(s[ks[i]]||""):"";});
+document.getElementById("msDel").style.display=id?"block":"none";
+document.getElementById("clrPick").innerHTML=COLORS.map(function(c){return "<div class=\"cp "+(c===selClr?"on":"")+"\" style=\"background:"+c+"\" onclick=\"pickClr('"+c+"',this)\"></div>";}).join("");
+openOv("ovSup");
+}
+function pickClr(c,el){selClr=c;document.querySelectorAll(".cp").forEach(function(e){e.classList.remove("on");});el.classList.add("on");}
+function confirmSup(){
+var name=document.getElementById("msN").value.trim();if(!name){toast("⚠️ Skriv inn navn");return;}
+var data={name:name,phone:document.getElementById("msPh").value.trim(),email:document.getElementById("msEm").value.trim(),web:document.getElementById("msWb").value.trim(),contact:document.getElementById("msCo").value.trim(),days:document.getElementById("msDy").value.trim(),min:document.getElementById("msMn").value.trim(),color:selClr};
+if(editSupId){var ex=suppliers.find(function(s){return s.id===editSupId;});Object.assign(ex,data);}else{data.id="s"+Date.now();suppliers.push(data);}
+lsw(K.sup,suppliers);closeOv("ovSup");renderSups();renderSupTabs();toast(editSupId?"✅ Oppdatert":"✅ Lagt til");
+}
+function deleteSup(){if(!editSupId)return;suppliers=suppliers.filter(function(s){return s.id!==editSupId;});products=products.filter(function(p){return p.sup!==editSupId;});lsw(K.sup,suppliers);lsw(K.prod,products);closeOv("ovSup");renderSups();renderSupTabs();toast("🗑 Slettet");}
+
+function openAddProd(id){
+editProdId=id;var p=id?products.find(function(pr){return pr.id===id;}):null;
+selSup=p?p.sup:(suppliers[0]?suppliers[0].id:"");selCat=p?p.cat:CATS[0];
+document.getElementById("mpT").textContent=id?"✏️ Rediger produkt":"➕ Nytt produkt";
+document.getElementById("mpN").value=p?p.name:"";document.getElementById("mpD").value=p?(p.desc||""):"";
+document.getElementById("mpE").value=p?(p.emoji||""):"";document.getElementById("mpU").value=p?(p.usual||""):"";
+document.getElementById("mpDel").style.display=id?"block":"none";
+renderSupPills();renderCatPMod();openOv("ovProd");
+}
+function renderSupPills(){document.getElementById("mpSS").innerHTML=suppliers.map(function(s){return "<div class=\"spill\" style=\""+(s.id===selSup?"border-color:"+s.color+";color:"+s.color+";background:rgba(16,185,129,.06)":"")+"\" onclick=\"pickSup('"+s.id+"')\"><span style=\"width:7px;height:7px;border-radius:50%;background:"+s.color+";display:inline-block;margin-right:5px;vertical-align:middle\"></span>"+s.name+"</div>";}).join("");}
+function renderCatPMod(){document.getElementById("mpCS").innerHTML=CATS.map(function(c){return "<div class=\"spill\" style=\""+(c===selCat?"border-color:var(--or2);color:var(--or2);background:var(--or3)":"")+"\" onclick=\"pickCat('"+c+"')\">"+c+"</div>";}).join("");}
+function pickSup(id){selSup=id;renderSupPills();}
+function pickCat(c){selCat=c;renderCatPMod();}
+function confirmProd(){
+var name=document.getElementById("mpN").value.trim();if(!name){toast("⚠️ Skriv inn produktnavn");return;}
+if(!selSup){toast("⚠️ Velg leverandør");return;}
+var data={name:name,desc:document.getElementById("mpD").value.trim(),emoji:document.getElementById("mpE").value.trim()||"📦",usual:document.getElementById("mpU").value.trim(),sup:selSup,cat:selCat};
+if(editProdId){var ex=products.find(function(p){return p.id===editProdId;});Object.assign(ex,data);}else{data.id="p"+Date.now();products.push(data);}
+lsw(K.prod,products);closeOv("ovProd");renderProds();renderCatPills();toast(editProdId?"✅ Oppdatert":"✅ Lagt til");
+}
+function deleteProd(){if(!editProdId)return;delete cart[editProdId];products=products.filter(function(p){return p.id!==editProdId;});lsw(K.prod,products);lsw(K.cart,cart);closeOv("ovProd");renderProds();renderCatPills();updateBadge();toast("🗑 Slettet");}
+
+function saveAsTmpl(){
+var keys=Object.keys(cart);
+if(!keys.length){toast("⚠️ Ingen produkter i bestillingen");return;}
+var name=prompt("Navn på malen:");if(!name)return;
+templates.push({id:"t"+Date.now(),name:name,cart:Object.assign({},cart),time:Date.now(),items:keys.length,qty:Object.values(cart).reduce(function(s,v){return s+v;},0)});
+lsw(K.tmpl,templates);renderTmpl();toast("✅ Mal lagret: "+name);
+}
+function renderTmpl(){
+var el=document.getElementById("tmplScr");if(!el)return;
+var h="<button class=\"fb fg\" onclick=\"saveAsTmpl()\">💾 Lagre gjeldende bestilling som mal</button>";
+if(!templates.length){h+="<div class=\"card\"><div class=\"empty\"><div class=\"emo\">📋</div><p>Ingen maler ennå.<br>Bygg en bestilling og lagre den!</p></div></div>";el.innerHTML=h;return;}
+h+="<div class=\"sec\">"+templates.length+" maler</div>";
+h+=templates.map(function(t,i){
+var grps={};Object.keys(t.cart).forEach(function(pid){var p=products.find(function(pr){return pr.id===pid;});if(!p)return;if(!grps[p.sup])grps[p.sup]=[];grps[p.sup].push(p);});
+var snames=Object.keys(grps).map(function(sid){var s=suppliers.find(function(s){return s.id===sid;});return s?s.name:"";}).filter(Boolean).join(", ");
+var pids=Object.keys(t.cart);
+var chips=pids.slice(0,5).map(function(pid){var p=products.find(function(pr){return pr.id===pid;});return p?"<span style=\"display:inline-flex;align-items:center;gap:4px;background:var(--s2);border-radius:10px;padding:4px 9px;font-size:12px;margin:3px\">"+(p.emoji||"📦")+" "+p.name+" ×"+t.cart[pid]+"</span>":"";}).join("");
+var more=pids.length>5?"<span style=\"font-size:11px;color:var(--mt)\"> +"+(pids.length-5)+" til</span>":"";
+return "<div class=\"card\"><div class=\"crow\"><div style=\"font-size:22px\">📋</div><div style=\"flex:1\"><div style=\"font-size:14px;font-weight:700\">"+t.name+"</div><div style=\"font-size:11px;color:var(--mt2);margin-top:2px\">"+t.items+" produkter · "+snames+"</div></div><button onclick=\"loadTmpl("+i+")\" style=\"padding:7px 12px;border-radius:10px;border:none;background:var(--gr3);color:var(--gr2);font-size:12px;font-weight:700;font-family:var(--fn);cursor:pointer;margin-right:6px\">Last inn</button><button onclick=\"delTmpl("+i+")\" style=\"padding:7px 10px;border-radius:10px;border:none;background:var(--rd3);color:var(--rd2);font-size:12px;font-weight:700;font-family:var(--fn);cursor:pointer\">🗑</button></div><div style=\"padding:8px 14px 12px\">"+chips+more+"</div></div>";
+}).join("");
+el.innerHTML=h;
+}
+function loadTmpl(i){var t=templates[i];if(Object.keys(cart).length>0&&!confirm("Erstatt gjeldende bestilling?"))return;cart=Object.assign({},t.cart);lsw(K.cart,cart);updateBadge();goTo("cart");toast("✅ Mal lastet: "+t.name);}
+function delTmpl(i){templates.splice(i,1);lsw(K.tmpl,templates);renderTmpl();toast("🗑 Mal slettet");}
+
+function renderReport(){
+var el=document.getElementById("reportScr");if(!el)return;
+var now=Date.now();var week=7*24*60*60*1000;
+var wh=history.filter(function(h){return now-h.time<=week;});
+var freq={};wh.forEach(function(h){if(h.cart)Object.keys(h.cart).forEach(function(pid){freq[pid]=(freq[pid]||0)+h.cart[pid];});});
+var top=Object.keys(freq).map(function(pid){return {pid:pid,cnt:freq[pid]};}).sort(function(a,b){return b.cnt-a.cnt;}).slice(0,8).map(function(x){return {p:products.find(function(pr){return pr.id===x.pid;}),cnt:x.cnt};}).filter(function(x){return x.p;});
+var totalQty=wh.reduce(function(s,h){return s+(h.qty||0);},0);
+var supFreq={};wh.forEach(function(h){if(h.cart)Object.keys(h.cart).forEach(function(pid){var p=products.find(function(pr){return pr.id===pid;});if(p)supFreq[p.sup]=(supFreq[p.sup]||0)+h.cart[pid];});});
+var h="<div class=\"sg2\"><div class=\"sbox\"><div class=\"snum\">"+wh.length+"</div><div class=\"slbl\">📋 Bestillinger (7d)</div></div><div class=\"sbox\"><div class=\"snum\">"+totalQty+"</div><div class=\"slbl\">📦 Enheter</div></div></div>";
+if(top.length){h+="<div class=\"sec\">🏆 Mest bestilt denne uken</div><div class=\"card\">"+top.map(function(x,i){return "<div class=\"ti\"><span class=\"tr\">#"+(i+1)+"</span><span class=\"te\">"+(x.p.emoji||"📦")+"</span><span class=\"tn\">"+x.p.name+"</span><span class=\"tc\">"+x.cnt+"×</span></div>";}).join("")+"</div>";}
+var supKeys=Object.keys(supFreq);
+if(supKeys.length){h+="<div class=\"sec\">🏭 Per leverandør</div><div class=\"card\">"+supKeys.sort(function(a,b){return supFreq[b]-supFreq[a];}).map(function(sid){var sup=suppliers.find(function(s){return s.id===sid;})||{name:"Ukjent",color:"#666"};return "<div class=\"ti\"><span style=\"width:14px;height:14px;border-radius:50%;background:"+sup.color+";display:inline-block;flex-shrink:0\"></span><span class=\"tn\">"+sup.name+"</span><span class=\"tc\">"+supFreq[sid]+" stk</span></div>";}).join("")+"</div>";}
+if(!wh.length){h+="<div class=\"card\"><div class=\"empty\"><div class=\"emo\">📈</div><p>Ingen bestillinger siste 7 dager</p></div></div>";}
+el.innerHTML=h;
+}
+function printReport(){
+var now=Date.now();var week=7*24*60*60*1000;
+var wh=history.filter(function(h){return now-h.time<=week;});
+var freq={};wh.forEach(function(h){if(h.cart)Object.keys(h.cart).forEach(function(pid){freq[pid]=(freq[pid]||0)+h.cart[pid];});});
+var top=Object.keys(freq).map(function(pid){return {pid:pid,cnt:freq[pid]};}).sort(function(a,b){return b.cnt-a.cnt;}).slice(0,15).map(function(x){return {p:products.find(function(pr){return pr.id===x.pid;}),cnt:x.cnt};}).filter(function(x){return x.p;});
+var dateStr=new Date().toLocaleDateString("no-NO",{weekday:"long",day:"2-digit",month:"long",year:"numeric"});
+var rows=top.map(function(x,i){return "<tr style=\"background:"+(i%2===0?"#f9fafb":"#fff")+"\"><td style=\"text-align:center\">"+(i+1)+"</td><td style=\"font-size:18px;text-align:center\">"+(x.p.emoji||"📦")+"</td><td style=\"font-weight:600\">"+x.p.name+"</td><td style=\"color:#666\">"+(x.p.desc||"")+"</td><td style=\"text-align:center;font-weight:800;color:#1565c0\">"+x.cnt+"</td></tr>";}).join("");
+var totQty=wh.reduce(function(s,h){return s+(h.qty||0);},0);
+var html="<style>@page{size:A4;margin:14mm}body{font-family:Arial,sans-serif;color:#111;margin:0}table td,table th{border-bottom:1px solid #e5e7eb;padding:7px}</style><h1 style=\"font-size:18pt;color:#166534;margin:0 0 4px\">📈 Ukesrapport</h1><div style=\"color:#666;font-size:10pt;margin-bottom:16px\">"+dateStr+"</div><div style=\"display:flex;gap:14px;margin-bottom:20px\"><div style=\"flex:1;border:1px solid #e5e7eb;border-radius:8px;padding:12px;text-align:center\"><div style=\"font-size:22pt;font-weight:800;color:#1565c0\">"+wh.length+"</div><div style=\"font-size:9pt;color:#666\">Bestillinger</div></div><div style=\"flex:1;border:1px solid #e5e7eb;border-radius:8px;padding:12px;text-align:center\"><div style=\"font-size:22pt;font-weight:800;color:#166534\">"+totQty+"</div><div style=\"font-size:9pt;color:#666\">Enheter</div></div></div><h2 style=\"font-size:13pt;margin:0 0 10px\">🏆 Mest bestilte produkter</h2><table style=\"width:100%;border-collapse:collapse\"><thead><tr style=\"background:#f1f5f9\"><th style=\"padding:7px\">Nr.</th><th></th><th style=\"text-align:left\">Produkt</th><th style=\"text-align:left;color:#666\">Beskrivelse</th><th>Antall</th></tr></thead><tbody>"+rows+"</tbody></table>";
+var w=window.open("","_blank","width=794,height=1123");w.document.write("<!DOCTYPE html><html><body>"+html+"</body></html>");w.document.close();setTimeout(function(){w.print();},600);
+}
+
+function startScanner(){
+var video=document.getElementById("scanVid");
+var startBtn=document.getElementById("scanSBtn");var stopBtn=document.getElementById("scanEBtn");
+var status=document.getElementById("scanSt");
+navigator.mediaDevices.getUserMedia({video:{facingMode:"environment",width:{ideal:1280},height:{ideal:720}}}).then(function(stream){
+scanStream=stream;video.srcObject=stream;
+startBtn.style.display="none";stopBtn.style.display="block";
+status.textContent="📷 Kamera aktivt — hold strekkoden innenfor rammen...";
+if("BarcodeDetector" in window){
+var det=new BarcodeDetector({formats:["ean_13","ean_8","code_128","qr_code","upc_a","upc_e"]});
+var lastCode="";var lastTime=0;
+var loop=setInterval(function(){
+if(!scanStream){clearInterval(loop);return;}
+det.detect(video).then(function(bc){
+if(bc.length>0){
+var code=bc[0].rawValue;var now=Date.now();
+if(code!==lastCode||now-lastTime>3000){lastCode=code;lastTime=now;handleBarcode(code);}
+}
+}).catch(function(){});
+},500);
+}else{
+status.textContent="📷 Kamera aktivt. Skriv inn strekkode manuelt nedenfor:";
+var res=document.getElementById("scanRes");var rc=document.getElementById("scanResCard");
+if(res&&rc){res.style.display="block";rc.innerHTML="<div class=\"ml\">Strekkode (manuell)</div><input class=\"mi\" id=\"manBC\" placeholder=\"Skriv inn strekkode...\" style=\"margin-bottom:10px\"><button class=\"mc\" onclick=\"handleBarcode(document.getElementById('manBC').value)\">🔍 Søk produkt</button>";}
+}
+}).catch(function(){status.textContent="⚠️ Kamera ikke tilgjengelig. Gi tillatelse i Safari-innstillinger.";});
+}
+function stopScanner(){
+if(scanStream){scanStream.getTracks().forEach(function(t){t.stop();});scanStream=null;}
+var sb=document.getElementById("scanSBtn");var eb=document.getElementById("scanEBtn");
+if(sb)sb.style.display="block";if(eb)eb.style.display="none";
+var st=document.getElementById("scanSt");if(st)st.textContent="Trykk for å starte kamera";
+}
+function handleBarcode(code){
+if(!code||!code.trim())return;
+var found=products.find(function(p){return (p.barcode&&p.barcode===code)||p.name.indexOf(code)>-1||(p.desc&&p.desc.indexOf(code)>-1);});
+var res=document.getElementById("scanRes");var rc=document.getElementById("scanResCard");
+if(res)res.style.display="block";
+if(rc){
+if(found){
+var qty=cart[found.id]||0;
+rc.innerHTML="<div style=\"display:flex;align-items:center;gap:12px;margin-bottom:12px\"><div style=\"font-size:32px\">"+(found.emoji||"📦")+"</div><div><div style=\"font-size:15px;font-weight:700\">"+found.name+"</div><div style=\"font-size:12px;color:var(--mt2);margin-top:2px\">"+(found.desc||"")+"</div></div></div><div style=\"background:var(--gr3);border:1px solid rgba(16,185,129,.2);border-radius:12px;padding:10px;margin-bottom:10px;font-size:13px;color:var(--gr2)\">✅ Funnet i katalogen!</div><button class=\"fb fg\" onclick=\"chQty('"+found.id+"',1);toast('✅ +1 lagt til!')\">+ Legg til 1 stk</button>";
+}else{
+rc.innerHTML="<div style=\"background:var(--or3);border:1px solid rgba(245,158,11,.2);border-radius:12px;padding:10px;margin-bottom:10px;font-size:13px;color:var(--or2)\">⚠️ Ikke funnet: "+code+"</div><button class=\"fb fg\" onclick=\"openAddProd(null)\">➕ Opprett nytt produkt</button>";
+}
+}
+scanHistory.unshift({time:Date.now(),code:code,found:found?found.name:null});
+if(scanHistory.length>20)scanHistory.pop();lsw(K.shist,scanHistory);renderScanHist();
+toast(found?"✅ Funnet: "+found.name:"⚠️ Ikke funnet: "+code);
+}
+function renderScanHist(){
+var el=document.getElementById("scanHistCard");if(!el)return;
+if(!scanHistory.length){el.innerHTML="<div style=\"padding:14px;text-align:center;font-size:13px;color:var(--mt)\">Ingen skanninger ennå</div>";return;}
+el.innerHTML=scanHistory.slice(0,10).map(function(h){
+var d=new Date(h.time);
+return "<div class=\"crow\"><div style=\"width:36px;height:36px;border-radius:10px;background:"+(h.found?"var(--gr3)":"var(--rd3)")+";display:flex;align-items:center;justify-content:center;font-size:16px;flex-shrink:0\">"+(h.found?"✅":"❓")+"</div><div style=\"flex:1\"><div style=\"font-size:13px;font-weight:600\">"+(h.found||"Ukjent: "+h.code)+"</div><div style=\"font-size:11px;color:var(--mt2);margin-top:2px\">"+d.toLocaleTimeString("no-NO",{hour:"2-digit",minute:"2-digit"})+"</div></div></div>";
+}).join("");
+}
+
+function generateQR(){
+var data={suppliers:suppliers,products:products};
+var json=JSON.stringify(data);
+var enc=encodeURIComponent(json);
+var el=document.getElementById("qrCanv");var st=document.getElementById("qrSt");
+if(enc.length>2900){
+if(el)el.innerHTML="<div style=\"font-size:13px;color:var(--or2);padding:10px\">Data er for stor for QR. Bruk Eksporter-funksjonen i stedet.</div>";
+if(st)st.textContent="For stor for QR — bruk Eksporter JSON";return;
+}
+if(el)el.innerHTML="<img src=\"https://api.qrserver.com/v1/create-qr-code/?size=220x220&data="+enc+"\" style=\"border-radius:12px;width:220px;height:220px\" onerror=\"this.parentElement.innerHTML='<div style=padding:10px;color:var(--rd2)>Feil. Prøv Eksporter i stedet.</div>'\">";
+if(st)st.textContent="QR-kode klar! La den andre telefonen skanne den.";
+toast("✅ QR-kode generert!");
+}
+function startQRScan(){
+var video=document.getElementById("qrVid");var scBtn=document.getElementById("qrScBtn");var stBtn=document.getElementById("qrStBtn");var status=document.getElementById("qrScanSt");
+navigator.mediaDevices.getUserMedia({video:{facingMode:"environment"}}).then(function(stream){
+qrStream=stream;video.srcObject=stream;video.style.display="block";
+if(scBtn)scBtn.style.display="none";if(stBtn)stBtn.style.display="block";
+if(status)status.textContent="Kamera aktivt — hold QR-koden foran kameraet...";
+if("BarcodeDetector" in window){
+var det=new BarcodeDetector({formats:["qr_code"]});
+var loop=setInterval(function(){
+if(!qrStream){clearInterval(loop);return;}
+det.detect(video).then(function(bc){
+if(bc.length>0){
+clearInterval(loop);stopQRScan();
+try{
+var d=JSON.parse(decodeURIComponent(bc[0].rawValue));
+if(d.suppliers)suppliers=suppliers.concat(d.suppliers.filter(function(ns){return !suppliers.find(function(s){return s.id===ns.id;});}));
+if(d.products)products=products.concat(d.products.filter(function(np){return !products.find(function(p){return p.id===np.id;});}));
+lsw(K.sup,suppliers);lsw(K.prod,products);
+if(status)status.textContent="✅ Data importert! "+(d.products?d.products.length:0)+" produkter og "+(d.suppliers?d.suppliers.length:0)+" leverandører lagt til.";
+toast("✅ QR Sync vellykket!");
+}catch(e){if(status)status.textContent="⚠️ Ugyldig QR-kode";}
+}
+}).catch(function(){});
+},500);
+}else{
+if(status)status.textContent="QR-skanner støttes ikke i denne nettleseren. Bruk Eksporter/Importer JSON i stedet.";
+}
+}).catch(function(){if(status)status.textContent="⚠️ Kamera ikke tilgjengelig. Sjekk tillatelser i Safari.";});
+}
+function stopQRScan(){
+if(qrStream){qrStream.getTracks().forEach(function(t){t.stop();});qrStream=null;}
+var video=document.getElementById("qrVid");if(video)video.style.display="none";
+var scBtn=document.getElementById("qrScBtn");var stBtn=document.getElementById("qrStBtn");
+if(scBtn)scBtn.style.display="block";if(stBtn)stBtn.style.display="none";
+}
+
+function reqReminder(){
+if(!("Notification" in window)){toast("⚠️ Varsler støttes ikke her");return;}
+Notification.requestPermission().then(function(p){
+if(p==="granted"){
+document.getElementById("remDayRow").style.display="flex";
+document.getElementById("remBtn").textContent="Endre";
+document.getElementById("remSt").textContent="Aktivert ✅";
+reminderDay=reminderDay===null?1:reminderDay;lsw(K.remday,reminderDay);
+document.getElementById("remDay").value=reminderDay;
+scheduleReminder();toast("✅ Varsler aktivert!");
+}else toast("⚠️ Gi tillatelse til varsler i Safari-innstillinger");
+});
+}
+function saveReminder(){
+reminderDay=parseInt(document.getElementById("remDay").value);lsw(K.remday,reminderDay);
+scheduleReminder();toast("✅ Påminnelse satt til "+DAYS[reminderDay]);
+document.getElementById("remSt").textContent="Aktivert "+DAYS[reminderDay]+" ✅";
+}
+var remInt=null;
+function scheduleReminder(){
+if(remInt)clearInterval(remInt);
+remInt=setInterval(function(){
+var n=new Date();
+if(reminderDay!==null&&n.getDay()===reminderDay&&n.getHours()===8&&n.getMinutes()===0){
+if(typeof Notification!=="undefined"&&Notification.permission==="granted"){
+new Notification("🛒 ButikkApp",{body:"Husk å legge inn bestilling i dag!"});
+}
+}
+},60000);
+}
+function initReminder(){
+if(reminderDay===null)return;
+var rd=document.getElementById("remDayRow");var rb=document.getElementById("remBtn");var rs=document.getElementById("remSt");var rday=document.getElementById("remDay");
+if(rd)rd.style.display="flex";if(rb)rb.textContent="Endre";
+if(rs)rs.textContent="Aktivert "+DAYS[reminderDay]+" ✅";if(rday)rday.value=reminderDay;
+scheduleReminder();
+}
+
+function toggleDark(){darkMode=!darkMode;lsw(K.dark,darkMode);applyMode();}
+function exportData(){
+var d={suppliers:suppliers,products:products,history:history,priceHistory:priceHistory,templates:templates,exportDate:new Date().toISOString()};
+var b=new Blob([JSON.stringify(d,null,2)],{type:"application/json"});
+var u=URL.createObjectURL(b);var a=document.createElement("a");
+a.href=u;a.download="ButikkApp_"+new Date().toLocaleDateString("no-NO").replace(/\./g,"-")+".json";
+document.body.appendChild(a);a.click();document.body.removeChild(a);URL.revokeObjectURL(u);toast("💾 Eksportert!");
+}
+function importData(e){
+var f=e.target.files[0];if(!f)return;
+var r=new FileReader();
+r.onload=function(ev){
+try{
+var d=JSON.parse(ev.target.result);
+if(d.suppliers)suppliers=d.suppliers;if(d.products)products=d.products;
+if(d.history)history=d.history;if(d.priceHistory)priceHistory=d.priceHistory;
+if(d.templates)templates=d.templates;
+lsw(K.sup,suppliers);lsw(K.prod,products);lsw(K.hist,history);lsw(K.phist,priceHistory);lsw(K.tmpl,templates);
+renderSupTabs();renderCatPills();renderProds();toast("✅ Importert!");
+}catch(e){toast("⚠️ Ugyldig fil");}
+};r.readAsText(f);e.target.value="";
+}
+function resetAll(){if(!confirm("Slett ALL data? Kan ikke angres!"))return;Object.keys(K).forEach(function(k){localStorage.removeItem(K[k]);});location.reload();}
+
+function openOv(id){document.getElementById(id).classList.add("open");}
+function closeOv(id){document.getElementById(id).classList.remove("open");}
+
+var tt=null;
+function toast(msg){var el=document.getElementById("toastEl");el.textContent=msg;el.classList.add("show");clearTimeout(tt);tt=setTimeout(function(){el.classList.remove("show");},2400);}
+
+renderHome();updateBadge();renderPHist();initReminder();
+</script>
+</body>
+</html>
